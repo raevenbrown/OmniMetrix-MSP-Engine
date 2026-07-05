@@ -34,7 +34,7 @@ client_matrix_data = pd.DataFrame({
     "monthly_recurring_revenue": [4250.00, 7000.00, 4375.00, 2125.00],
     "relationship_length_months": [18, 24, 12, 6],
     "monthly_bill_status": ["Paid", "Paid", "Overdue", "Paid"],
-    "out_of_scope_spend": [350.00, 1200.00, 0.00, 150.00]  # Projects like AI Enablement/Cabling
+    "out_of_scope_spend": [350.00, 1200.00, 0.00, 150.00]  -- Projects like AI Enablement/Cabling
 })
 
 # 2. Sidebar Layout Console
@@ -84,13 +84,15 @@ st.write("---")
 if app_panel == "📋 Client Helpdesk Portal":
     st.header("📋 Daily Inbound Operations & Ticket Workbench")
     
+    # Calculate unresolved workload cleanly outside the widget arguments
+    open_load = len(filtered_tickets[filtered_tickets["status"] != "Resolved"])
+    
     # Live Ticket Counters
     tc1, tc2, tc3 = st.columns(3)
     with tc1:
         st.metric("Total Inbound Ticket Volume", value=len(filtered_tickets))
     with tc2:
-        open_load = len(filtered_tickets[filtered_tickets["status"] != "Resolved"])
-        st.metric("Active Unresolved Workload", value=open_count := open_load)
+        st.metric("Active Unresolved Workload", value=open_load)
     with tc3:
         total_minutes = filtered_tickets["time_logged_minutes"].sum()
         st.metric("Total Engineering Duration Logged", value=f"{total_minutes} Mins")
