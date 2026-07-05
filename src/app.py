@@ -34,7 +34,7 @@ client_matrix_data = pd.DataFrame({
     "monthly_recurring_revenue": [4250.00, 7000.00, 4375.00, 2125.00],
     "relationship_length_months": [18, 24, 12, 6],
     "monthly_bill_status": ["Paid", "Paid", "Overdue", "Paid"],
-    "out_of_scope_spend": [350.00, 1200.00, 0.00, 150.00]  # Projects like AI Enablement/Cabling
+    "out_of_scope_spend": [350.00, 1200.00, 0.00, 150.00]
 })
 
 # 2. Sidebar Layout Console
@@ -83,11 +83,8 @@ st.write("---")
 # ==========================================
 if app_panel == "📋 Client Helpdesk Portal":
     st.header("📋 Daily Inbound Operations & Ticket Workbench")
-    
-    # Calculate unresolved workload cleanly outside the widget arguments
     open_load = len(filtered_tickets[filtered_tickets["status"] != "Resolved"])
     
-    # Live Ticket Counters
     tc1, tc2, tc3 = st.columns(3)
     with tc1:
         st.metric("Total Inbound Ticket Volume", value=len(filtered_tickets))
@@ -102,7 +99,6 @@ if app_panel == "📋 Client Helpdesk Portal":
     st.dataframe(filtered_tickets, use_container_width=True, hide_index=True)
     st.write("---")
     
-    # Interactive Workstation Hook
     st.subheader("🛠️ Active Ticket Workbench Engine")
     if len(filtered_tickets) > 0:
         target_id = st.selectbox("Mount Ticket to Action Center ID:", options=filtered_tickets["ticket_id"].unique())
@@ -141,7 +137,6 @@ if app_panel == "📋 Client Helpdesk Portal":
 elif app_panel == "💰 Tier Revenue & Service Accounts":
     st.header("💰 Account Profitability Matrix & Tier Telemetry")
     
-    # Revenue KPI Layout Blocks
     rc1, rc2, rc3 = st.columns(3)
     with rc1:
         total_mrr = filtered_matrix["monthly_recurring_revenue"].sum()
@@ -158,7 +153,6 @@ elif app_panel == "💰 Tier Revenue & Service Accounts":
     st.dataframe(filtered_matrix, use_container_width=True, hide_index=True)
     st.write("---")
     
-    # Chart Visualization of package performance metrics
     g_col1, g_col2 = st.columns(2)
     with g_col1:
         fig_packages = px.bar(
@@ -179,68 +173,119 @@ elif app_panel == "💰 Tier Revenue & Service Accounts":
 # MODULE 3: EMAIL MARKETING ANALYTICS
 # ==========================================
 elif app_panel == "📧 Email Marketing Analytics":
-    st.header("📧 Growth Performance — Corporate Email Journeys")
+    st.header("📧 Growth Performance & B2B Lead List Segments")
     
-    ec1, ec2, ec3 = st.columns(3)
-    with ec1:
-        st.metric("Total List Subscribers", value="14,250 Profiles", delta="+380 This Week")
-    with ec2:
-        st.metric("Average Campaign Open Rate", value="28.4%", delta="+1.2% versus Baseline")
-    with ec3:
-        st.metric("CTR (Click-Through Conversion Rate)", value="4.1%")
+    # 1. Active Marketing List Breakdown By Niche Vertical
+    st.subheader("👥 Active Subscriber Target Segments")
+    list_col1, list_col2 = st.columns([1, 1])
+    
+    with list_col1:
+        segment_df = pd.DataFrame({
+            "B2B Industry Focus": ["Certified Public Accountants (CPAs)", "Law Firms & Attorneys", "Real Estate Agencies", "Medical Practices (HIPAA)"],
+            "Active Leads": [4500, 3200, 4100, 2450],
+            "Engagement Health": ["High (42% Open)", "Medium (29% Open)", "High (38% Open)", "Critical (18% Open)"]
+        })
+        st.dataframe(segment_df, use_container_width=True, hide_index=True)
         
+    with list_col2:
+        fig_seg = px.pie(segment_df, values="Active Leads", names="B2B Industry Focus", hole=0.4,
+                         title="Lead Database Share by Target Niche Segment",
+                         color_discrete_sequence=["#9C27B0", "#00B0FF", "#00E676", "#FFEA00"])
+        st.plotly_chart(fig_seg, use_container_width=True)
+
     st.write("---")
-    st.subheader("📈 Chronological Subscriber List Velocity")
-    mock_email_time = pd.DataFrame({
-        "Month": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-        "Campaign_Opens": [2100, 2400, 2900, 3100, 3800, 4200],
-        "Unsubscribes": [45, 30, 55, 22, 12, 19]
+    
+    # 2. Sent Campaigns & Subject Lines
+    st.subheader("📬 Sent Outbound Email Campaigns Audit Log")
+    
+    campaign_df = pd.DataFrame({
+        "Campaign Date": ["Jul 01, 2026", "Jun 24, 2026", "Jun 15, 2026"],
+        "Target Segment": ["Law Firms & Attorneys", "Certified Public Accountants (CPAs)", "Medical Practices (HIPAA)"],
+        "Subject Line": [
+            "Is your firm's case file backup compliant with upcoming state data privacy laws?",
+            "How top CPAs completely secure local QuickBooks environments against tax-season ransomware",
+            "Urgent Security Alert: Preventing accidental document leaks on SharePoint networks"
+        ],
+        "Open Rate": ["31.2%", "44.5%", "19.1%"],
+        "Clicks": [142, 312, 48],
+        "Performance Status": ["🟢 Above Average Target", "🔥 High Performer", "⚠️ Needs Optimization"]
     })
-    fig_email = px.line(mock_email_time, x="Month", y="Campaign_Opens", title="Executive Newsletter Engagement Inflow Trajectory", markers=True)
-    st.plotly_chart(fig_email, use_container_width=True)
+    st.dataframe(campaign_df, use_container_width=True, hide_index=True)
+    
+    # 3. Live Email Content Layout Inspection Box
+    st.write("")
+    st.markdown("#### 🔍 Outbound Email Blueprint Inspection Layout")
+    inspect_target = st.selectbox("Select Sent Campaign to Inspect Copy Layout:", options=campaign_df["Target Segment"])
+    
+    with st.container(border=True):
+        if inspect_target == "Law Firms & Attorneys":
+            st.markdown("**Subject:** `Is your firm's case file backup compliant with upcoming state data privacy laws?`")
+            st.markdown("**Body Framework Copy Preview:**")
+            st.caption("Hello Team, Legal firms are increasingly targeted for client discovery information. If your on-prem server experiences hardware failures today, how fast can you recover a litigation archive? OmniMetrix provides military-grade server rollbacks to protect compliance...")
+        elif inspect_target == "Certified Public Accountants (CPAs)":
+            st.markdown("**Subject:** `How top CPAs completely secure local QuickBooks environments against tax-season ransomware`")
+            st.markdown("**Body Framework Copy Preview:**")
+            st.caption("Hi there, Tax season brings high volumes of financial document movement. One phishing link can lock up your data and halt tax filing timelines. Here is a step-by-step breakdown of how our Entra ID strong authentication layers defend financial profiles...")
+        else:
+            st.markdown("**Subject:** `Urgent Security Alert: Preventing accidental document leaks on SharePoint networks`")
+            st.markdown("**Body Framework Copy Preview:**")
+            st.caption("Dear Administrator, Healthcare regulations require strict data security on patient tracking fields. Broken file inheritance rules within shared drives could expose internal documentation. Let our security teams trace your permission path maps...")
 
 # ==========================================
 # MODULE 4: SOCIAL MEDIA TRACKING
 # ==========================================
 elif app_panel == "📱 Social Media Tracking":
-    st.header("📱 B2B Audience Optimization & Engagement Matrices")
+    st.header("📱 Multi-Platform Content Analysis & Growth Matrices")
     
-    sc1, sc2, sc3 = st.columns(3)
-    with sc1:
-        st.metric("Cross-Platform Follower Base", value="45.1K Reach")
-    with sc2:
-        st.metric("Net Social Engagement Velocity", value="8.7%")
-    with sc3:
-        st.metric("Total Social Lead Conversions", value="114 Accounts")
-        
-    st.write("---")
-    st.subheader("📊 Network Distribution & Social Impression Shares")
-    mock_social_platforms = pd.DataFrame({
-        "Channel": ["LinkedIn", "YouTube", "Twitter/X", "Instagram Threads"],
-        "Inbound_Leads": [65, 29, 15, 5]
+    # What's Working vs What's Failing Table
+    st.subheader("💡 Strategic Content Performance Breakdown")
+    
+    social_analysis = pd.DataFrame({
+        "Social Platform": ["LinkedIn Corporate", "YouTube Explainer", "LinkedIn Corporate", "Twitter/X Flash Alerts", "Instagram Threads"],
+        "Content Topic Strategy": ["M365 Account Deletion Step-by-Step Security Video", "How to Build a Custom SharePoint Library Walkthrough", "Text Post: Venting about messy client Excel billing logs", "Ransomware News Flash Link", "Daily motivational workplace quote graphics"],
+        "Total Engagement Metric": ["High (2.4K Views, 18 Leads)", "High (4.1K Views, 22 Leads)", "Medium (800 Impressions, 2 Leads)", "Low (40 Views, 0 Clicks)", "Low (12 Likes, 0 Value)"],
+        "Performance Classification": ["🔥 WHAT IS WORKING BEST", "🔥 WHAT IS WORKING BEST", "🟡 AVERAGE BASELINE", "❌ STOP CREATING / NOT WORKING", "❌ STOP CREATING / NOT WORKING"],
+        "Actionable Next-Step Correction": ["Produce more technical video guides showing backend administrative workflows.", "Double down on long-form tech architectures to build brand authority.", "Keep as occasional filler, but prioritize valuable engineering videos.", "Stop posting text links without original visual context summaries.", "Immediately stop asset burn; B2B tech clients do not engage with quote cards."]
     })
-    fig_social = px.bar(mock_social_platforms, x="Channel", y="Inbound_Leads", color="Channel", title="Inbound Qualified B2B Contract Leads per Platform")
-    st.plotly_chart(fig_social, use_container_width=True)
+    
+    # Color code classifications to highlight insights instantly
+    def color_social_rows(row):
+        if "WORKING BEST" in row["Performance Classification"]:
+            return ['background-color: #1B5E20; color: white'] * len(row)
+        elif "NOT WORKING" in row["Performance Classification"]:
+            return ['background-color: #B71C1C; color: white'] * len(row)
+        return [''] * len(row)
+        
+    st.dataframe(social_analysis.style.apply(color_social_rows, axis=1), use_container_width=True)
 
 # ==========================================
 # MODULE 5: DIGITAL AD SPEND PERFORMANCE
 # ==========================================
 elif app_panel == "🎯 Digital Ad Spend Performance":
-    st.header("🎯 Multi-Channel Paid Acquisition & ROAS Dashboard")
+    st.header("🎯 Multi-Channel Paid Acquisition & Budget Tracking Matrix")
     
-    ac1, ac2, ac3 = st.columns(3)
-    with ac1:
-        st.metric("Total Monthly Ad Budget Capital Deployed", value="$8,500.00")
-    with ac2:
-        st.metric("Average CPC (Cost Per Acquisition Click)", value="$3.42")
-    with ac3:
-        st.metric("ROAS (Return on Advertising Capital Invested)", value="4.2x")
-        
-    st.write("---")
-    st.subheader("🍩 Paid Visual Asset Performance Breakdown")
-    mock_ad_spend = pd.DataFrame({
-        "Ad_Network": ["Google Intent Search", "LinkedIn Dynamic Ads", "Meta B2B Lookalikes"],
-        "Budget_Allocation": [4500, 2500, 1500]
+    # Detailed Ad Network Table
+    st.subheader("📊 Active Advertising Campaign Performance Tiers")
+    
+    ad_df = pd.DataFrame({
+        "Campaign Strategy Network": ["Google Intent Search (Keywords: Managed IT, M365 Deletions)", "LinkedIn Sponsored Message (Targeting: Law Firm Partners)", "Meta Lookalike Retargeting (Targeting: Local CPAs & Realtors)"],
+        "Monthly Capital Deployed": [4500.00, 2500.00, 1500.00],
+        "Average Cost Per Click (CPC)": [4.15, 8.50, 2.10],
+        "Acquired Qualified Inbound Leads": [34, 12, 8],
+        "Customer Acquisition Cost (CAC)": [132.35, 208.33, 187.50],
+        "Return On Ad Spend (ROAS)": ["4.8x Return", "3.1x Return", "1.8x Return"],
+        "Network Efficiency": ["🟢 Highly Profitable Scaling Tier", "🟡 Stable Pipeline - Keep Baseline", "⚠️ Unprofitable Friction Node"]
     })
-    fig_ads = px.pie(mock_ad_spend, values="Budget_Allocation", names="Ad_Network", hole=0.5, color_discrete_sequence=["#00E676", "#00B0FF", "#D500F9"])
-    st.plotly_chart(fig_ads, use_container_width=True)
+    st.dataframe(ad_df, use_container_width=True, hide_index=True)
+    
+    st.write("---")
+    col_ad1, col_ad2 = st.columns([1, 1])
+    with col_ad1:
+        fig_ad_pie = px.pie(ad_df, values="Monthly Capital Deployed", names="Campaign_Strategy_Network" if "Campaign_Strategy_Network" in ad_df else "Campaign Strategy Network", hole=0.4,
+                            title="Paid Marketing Capital Budget Distribution Splits",
+                            color_discrete_sequence=["#00E676", "#00B0FF", "#D500F9"])
+        st.plotly_chart(fig_ad_pie, use_container_width=True)
+    with col_ad2:
+        st.markdown("#### 🎯 Ad Spend Operational Directives:")
+        st.info("**1. Scale Google Search Intent:** High efficiency tier generating high-intent keywords tracking local IT helpdesk setups. Target budget expansion to $6,000 next month.")
+        st.warning("**2. Audit Meta CPA Ad Units:** Showing severe conversion friction. Low intent matches are wasting clicks. Optimize design creatives or pause CPA targeting entirely.")
