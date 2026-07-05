@@ -34,7 +34,7 @@ client_matrix_data = pd.DataFrame({
     "monthly_recurring_revenue": [4250.00, 7000.00, 4375.00, 2125.00],
     "relationship_length_months": [18, 24, 12, 6],
     "monthly_bill_status": ["Paid", "Paid", "Overdue", "Paid"],
-    "out_of_scope_spend": [350.00, 1200.00, 0.00, 150.00]  -- Projects like AI Enablement/Cabling
+    "out_of_scope_spend": [350.00, 1200.00, 0.00, 150.00]  # Projects like AI Enablement/Cabling
 })
 
 # 2. Sidebar Layout Console
