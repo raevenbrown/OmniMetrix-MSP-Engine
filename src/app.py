@@ -194,4 +194,155 @@ elif app_panel == "💰 Tier Revenue & Service Accounts":
         total_extra = filtered_matrix["out_of_scope_spend"].sum()
         st.metric("Out-of-Scope Project Billings (Ad-Hoc)", value=f"${total_extra:,.2f}")
     with rev_c3:
-        over
+        overdue_invoices = len(filtered_matrix[filtered_matrix["monthly_bill_status"] == "Overdue"])
+        st.metric("Delinquent Overdue Client Accounts", value=overdue_invoices, delta="Action Required", delta_color="inverse")
+        
+    st.write("---")
+    st.subheader("🏢 Contract Relationship & Financial Audit Grid")
+    # Displays the clean structured user seats, contract lengths, and payment states
+    st.dataframe(filtered_matrix, use_container_width=True, hide_index=True)
+    st.write("---")
+    
+    g_col1, g_col2 = st.columns(2)
+    with g_col1:
+        fig_packages = px.bar(
+            client_matrix_data, x="service_tier", y="monthly_recurring_revenue", color="contract_length_term",
+            title="Revenue Capture Map Segments by Contract Length Agreement",
+            labels={"service_tier": "Subscribed Tier Strategy", "monthly_recurring_revenue": "Total Contract MRR ($)", "contract_length_term": "Subscription Agreement"}
+        )
+        st.plotly_chart(fig_packages, use_container_width=True)
+    with g_col2:
+        fig_scope = px.pie(
+            filtered_matrix, values="out_of_scope_spend", names="client_name", hole=0.4,
+            title="Ad-Hoc Project Beyond Monthly Contract Base Split",
+            color_discrete_sequence=px.colors.sequential.Purples_r
+        )
+        st.plotly_chart(fig_scope, use_container_width=True)
+
+# ==========================================
+# MODULE 4: EMAIL MARKETING ANALYTICS
+# ==========================================
+elif app_panel == "📧 Email Marketing Analytics":
+    st.header("📧 Growth Performance & B2B Lead List Segments")
+    st.subheader("👥 Active Subscriber Target Segments")
+    list_col1, list_col2 = st.columns([1, 1])
+    with list_col1:
+        segment_df = pd.DataFrame({
+            "B2B Industry Focus": ["Certified Public Accountants (CPAs)", "Law Firms & Attorneys", "Real Estate Agencies", "Medical Practices (HIPAA)"],
+            "Active Leads": [4500, 3200, 4100, 2450],
+            "Engagement Health": ["High (42% Open)", "Medium (29% Open)", "High (38% Open)", "Critical (18% Open)"]
+        })
+        st.dataframe(segment_df, use_container_width=True, hide_index=True)
+    with list_col2:
+        fig_seg = px.pie(segment_df, values="Active Leads", names="B2B Industry Focus", hole=0.4,
+                         title="Lead Database Share by Target Niche Segment",
+                         color_discrete_sequence=["#9C27B0", "#00B0FF", "#00E676", "#FFEA00"])
+        st.plotly_chart(fig_seg, use_container_width=True)
+
+    st.write("---")
+    st.subheader("📬 Sent Outbound Email Campaigns Audit Log")
+    campaign_df = pd.DataFrame({
+        "Campaign Date": ["Jul 01, 2026", "Jun 24, 2026", "Jun 15, 2026"],
+        "Target Segment": ["Law Firms & Attorneys", "Certified Public Accountants (CPAs)", "Medical Practices (HIPAA)"],
+        "Subject Line": [
+            "Is your firm's case file backup compliant with upcoming state data privacy laws?",
+            "How top CPAs completely secure local QuickBooks environments against tax-season ransomware",
+            "Urgent Security Alert: Preventing accidental document leaks on SharePoint networks"
+        ],
+        "Open Rate": ["31.2%", "44.5%", "19.1%"],
+        "Clicks": [142, 312, 48],
+        "Performance Status": ["🟢 Above Average Target", "🔥 High Performer", "⚠️ Needs Optimization"]
+    })
+    st.dataframe(campaign_df, use_container_width=True, hide_index=True)
+    
+    st.write("")
+    st.markdown("#### 🔍 Outbound Email Blueprint Inspection Layout")
+    inspect_target = st.selectbox("Select Sent Campaign to Inspect Copy Layout:", options=campaign_df["Target Segment"])
+    with st.container(border=True):
+        if inspect_target == "Law Firms & Attorneys":
+            st.markdown("**Subject:** `Is your firm's case file backup compliant with upcoming state data privacy laws?`")
+            st.markdown("**Body Framework Copy Preview:**")
+            st.caption("Hello Team, Legal firms are increasingly targeted for client discovery information. If your on-prem server experiences hardware failures today, how fast can you recover a litigation archive? OmniMetrix provides server rollbacks to protect compliance...")
+        elif inspect_target == "Certified Public Accountants (CPAs)":
+            st.markdown("**Subject:** `How top CPAs completely secure local QuickBooks environments against tax-season ransomware`")
+            st.markdown("**Body Framework Copy Preview:**")
+            st.caption("Hi there, Tax season brings high volumes of financial document movement. One phishing link can lock up your data and halt tax filing timelines. Here is a step-by-step breakdown of how our strong authentication layers defend financial profiles...")
+        else:
+            st.markdown("**Subject:** `Urgent Security Alert: Preventing accidental document leaks on SharePoint networks`")
+            st.markdown("**Body Framework Copy Preview:**")
+            st.caption("Dear Administrator, Healthcare regulations require strict data security on patient tracking fields. Broken file inheritance rules within shared drives could expose internal documentation. Let our security teams trace your permission path maps...")
+
+# ==========================================
+# MODULE 5: SOCIAL MEDIA TRACKING
+# ==========================================
+elif app_panel == "📱 Social Media Tracking":
+    st.header("📱 Multi-Platform Content Analysis & Granular Growth Matrix")
+    
+    # Macro Follower Matrix
+    st.subheader("👥 Global Audience Network Metrics")
+    f1, f2, f3, f4 = st.columns(4)
+    with f1: st.metric("LinkedIn Followers", "8,450 Reach", "+240 This Month")
+    with f2: st.metric("YouTube Subscribers", "12,100 Reach", "+510 This Month")
+    with f3: st.metric("Twitter/X Followers", "21,800 Reach", "-12 Dropped")
+    with f4: st.metric("Instagram Followers", "2,750 Reach", "+5 Flat")
+    
+    st.write("---")
+    
+    # Granular Post-by-Post Audit Log
+    st.subheader("💡 Strategic Content Engagement Logs (Post-Level Performance)")
+    
+    social_analysis = pd.DataFrame({
+        "Social Platform": ["LinkedIn Corporate", "YouTube Explainer", "LinkedIn Corporate", "Twitter/X Flash", "Instagram Threads"],
+        "Content Topic / Headline": ["M365 Account Deletion Step-by-Step Security Video", "How to Build a SharePoint Library Walkthrough", "Text Post: Venting about messy client billing logs", "Ransomware News Flash Link", "Daily motivational workplace quote graphics"],
+        "Impressions": [12400, 28500, 3200, 180, 210],
+        "Likes": [412, 1840, 92, 3, 14],
+        "Shares / Retweets": [89, 420, 11, 0, 1],
+        "Link Clicks": [214, 865, 45, 1, 0],
+        "Performance Classification": ["🔥 HIGH ROI PERFORMS", "🔥 HIGH ROI PERFORMS", "🟡 AVERAGE BASELINE", "❌ FAIL / UNPROFITABLE", "❌ FAIL / UNPROFITABLE"],
+        "Actionable Next-Step Strategy": [
+            "Produce more technical video guides showing administrative workflows.",
+            "Double down on long-form tech architectures to build brand authority.",
+            "Keep as occasional filler, but prioritize valuable engineering videos.",
+            "Stop posting bare text links without original visual summary slides.",
+            "Immediately halt asset burn; B2B tech clients do not engage with quote cards."
+        ]
+    })
+    
+    def color_social_rows(row):
+        if "HIGH ROI" in row["Performance Classification"]:
+            return ['background-color: #1B5E20; color: white'] * len(row)
+        elif "FAIL" in row["Performance Classification"]:
+            return ['background-color: #B71C1C; color: white'] * len(row)
+        return [''] * len(row)
+        
+    st.dataframe(social_analysis.style.apply(color_social_rows, axis=1), use_container_width=True, hide_index=True)
+
+# ==========================================
+# MODULE 6: DIGITAL AD SPEND PERFORMANCE
+# ==========================================
+elif app_panel == "🎯 Digital Ad Spend Performance":
+    st.header("🎯 Multi-Channel Paid Acquisition & Budget Tracking Matrix")
+    st.subheader("📊 Active Advertising Campaign Performance Tiers")
+    
+    ad_df = pd.DataFrame({
+        "Campaign Strategy Network": ["Google Intent Search (Keywords: Managed IT, M365 Deletions)", "LinkedIn Sponsored Message (Targeting: Law Firm Partners)", "Meta Lookalike Retargeting (Targeting: Local CPAs & Realtors)"],
+        "Monthly Capital Deployed": [4500.00, 2500.00, 1500.00],
+        "Average Cost Per Click (CPC)": [4.15, 8.50, 2.10],
+        "Acquired Qualified Inbound Leads": [34, 12, 8],
+        "Customer Acquisition Cost (CAC)": [132.35, 208.33, 187.50],
+        "Return On Ad Spend (ROAS)": ["4.8x Return", "3.1x Return", "1.8x Return"],
+        "Network Efficiency": ["🟢 Highly Profitable Scaling Tier", "🟡 Stable Pipeline - Keep Baseline", "⚠️ Unprofitable Friction Node"]
+    })
+    st.dataframe(ad_df, use_container_width=True, hide_index=True)
+    
+    st.write("---")
+    col_ad1, col_ad2 = st.columns([1, 1])
+    with col_ad1:
+        fig_ad_pie = px.pie(ad_df, values="Monthly Capital Deployed", names="Campaign Strategy Network", hole=0.4,
+                            title="Paid Marketing Capital Budget Distribution Splits",
+                            color_discrete_sequence=["#00E676", "#00B0FF", "#D500F9"])
+        st.plotly_chart(fig_ad_pie, use_container_width=True)
+    with col_ad2:
+        st.markdown("#### 🎯 Ad Spend Operational Directives:")
+        st.info("**1. Scale Google Search Intent:** High efficiency tier generating high-intent keywords tracking local IT helpdesk setups. Target budget expansion to $6,000 next month.")
+        st.warning("**2. Audit Meta CPA Ad Units:** Showing severe conversion friction. Low intent matches are wasting clicks. Optimize design creatives or pause CPA targeting entirely.")
