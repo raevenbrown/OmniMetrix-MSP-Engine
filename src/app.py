@@ -5,15 +5,15 @@ import plotly.express as px
 # 1. Main Page Canvas Configuration
 st.set_page_config(page_title="OmniMetrix OS Suite", layout="wide")
 
-# Persistent state mapping structural IT helpdesk operational work logs
+# Persistent Session State 1: Active Helpdesk Queue (M365 & SharePoint Administrative Scopes)
 if "ticket_db" not in st.session_state:
     st.session_state.ticket_db = pd.DataFrame({
         "ticket_id": [301, 302, 303, 304, 305, 306, 307],
-        "client_name": ["Apex Logistics", "Summit Health Network", "Vanguard Finance", "Apex Logistics", "Horizon Retail", "Summit Health Network", "Vanguard Finance"],
+        "client_name": ["Alpha Logistics", "Beta Healthcare Network", "Gamma Financial", "Alpha Logistics", "Delta E-Commerce", "Beta Healthcare Network", "Gamma Financial"],
         "task_category": ["M365 Admin Center", "SharePoint Online", "M365 Identity", "M365 Admin Center", "M365 Identity", "SharePoint Online", "Offboarding & Security"],
         "issue_description": [
             "Create corporate Distribution List and Mail-Enabled Security Group for Operations team.",
-            "Provision secure Document Library structure for internal HIPAA auditing file sync.",
+            "Provision secure Document Library structure for internal compliance file sync.",
             "Enforce MFA and Strong Authentication validation across all finance team accounts.",
             "Provision a new user account with full Teams license configuration and custom email alias.",
             "Perform emergency account deletion and revoke active Microsoft 365 access tokens.",
@@ -26,20 +26,26 @@ if "ticket_db" not in st.session_state:
         "technician_notes": ["", "Shared library configured; waiting on final user list.", "MFA enforced successfully via conditional access policies.", "", "", "Permissions re-inherited down to subfolders.", ""]
     })
 
-# Master Client Core Data Frame (Mapping Device Inventories, Patching Statuses, and Financial Tiers)
+# Persistent Session State 2: Live RMM Device Infrastructure & Patch Telemetry
+if "rmm_db" not in st.session_state:
+    st.session_state.rmm_db = pd.DataFrame({
+        "asset_id": ["WS-01", "SRV-02", "WS-03", "WS-04", "SRV-05", "FW-06", "SW-07"],
+        "client_name": ["Alpha Logistics", "Beta Healthcare Network", "Gamma Financial", "Delta E-Commerce", "Alpha Logistics", "Beta Healthcare Network", "Gamma Financial"],
+        "device_type": ["Workstation", "Server", "Workstation", "Workstation", "Server", "WAN Edge Firewall", "Switch"],
+        "os_platform": ["Windows 11 Pro", "Windows Server 2022", "Windows 11 Pro", "Windows 11 Pro", "Ubuntu Server", "Firmware OS", "Switch OS"],
+        "patch_compliance": ["Needs Reboot", "Needs Review", "Installed", "Needs Review", "Installed", "Installed", "Needs Reboot"],
+        "active_rmm_alert": ["None", "Cpu Monitoring: Alert usage over 90%", "App Crash Trigger: Event ID 1042", "Low Hd Space Trigger: Drive C under 10%", "None", "None", "None"]
+    })
+
+# Master B2B Client Business Profile Table Mapping
 client_matrix_data = pd.DataFrame({
-    "client_name": ["Apex Logistics", "Summit Health Network", "Vanguard Finance", "Horizon Retail"],
-    "service_tier": ["Silver ($85/mo)", "Platinum ($175/mo)", "Gold ($125/mo)", "Silver ($85/mo)"],
+    "client_name": ["Alpha Logistics", "Beta Healthcare Network", "Gamma Financial", "Delta E-Commerce"],
+    "service_tier": ["Silver Tier", "Platinum Tier", "Gold Tier", "Silver Tier"],
     "seat_count": [50, 40, 35, 25],
     "monthly_recurring_revenue": [4250.00, 7000.00, 4375.00, 2125.00],
     "relationship_length_months": [18, 24, 12, 6],
     "monthly_bill_status": ["Paid", "Paid", "Overdue", "Paid"],
-    "out_of_scope_spend": [350.00, 1200.00, 0.00, 150.00],
-    "wireless_aps": [12, 24, 15, 6],
-    "network_switches": [4, 8, 5, 2],
-    "wan_edges": [2, 4, 2, 1],
-    "patch_compliance_pct": [92, 100, 85, 63],
-    "active_rmm_alerts": [2, 0, 5, 4]
+    "out_of_scope_spend": [350.00, 1200.00, 0.00, 150.00]
 })
 
 # 2. Sidebar Layout Console
@@ -58,19 +64,22 @@ client_selection = st.sidebar.selectbox(
 # Apply Multi-Tenant Isolation Filter across tables
 if client_selection == "All Managed Accounts":
     filtered_tickets = st.session_state.ticket_db
+    filtered_rmm = st.session_state.rmm_db
     filtered_matrix = client_matrix_data
 else:
     filtered_tickets = st.session_state.ticket_db[st.session_state.ticket_db["client_name"] == client_selection]
+    filtered_rmm = st.session_state.rmm_db[st.session_state.rmm_db["client_name"] == client_selection]
     filtered_matrix = client_matrix_data[client_matrix_data["client_name"] == client_selection]
 
 st.sidebar.write("---")
 
-# Operational Navigation Menu
+# Navigation Panel Option Matrix (Unified Under Operational Navigation)
 st.sidebar.subheader("🏁 Operational Navigation")
 app_panel = st.sidebar.radio(
     "Select Management Module Panel:",
     [
         "📋 Client Helpdesk Portal", 
+        "⚙️ RMM Alerts & Patch Management",
         "💰 Tier Revenue & Service Accounts", 
         "📧 Email Marketing Analytics", 
         "📱 Social Media Tracking", 
@@ -88,31 +97,22 @@ st.write("---")
 # ==========================================
 if app_panel == "📋 Client Helpdesk Portal":
     st.header("📋 Daily Inbound Operations & Ticket Workbench")
-    
-    # Live Infrastructure Asset and Operational KPI Cards
     open_load = len(filtered_tickets[filtered_tickets["status"] != "Resolved"])
     
-    # Calculate totals dynamically based on client context selection
-    total_aps = filtered_matrix["wireless_aps"].sum()
-    total_alerts = filtered_matrix["active_rmm_alerts"].sum()
-    avg_patch = filtered_matrix["patch_compliance_pct"].mean()
-    
-    kpi1, kpi2, kpi3, kpi4 = st.columns(4)
-    with kpi1:
-        st.metric("Active Unresolved Tickets", value=open_load)
-    with kpi2:
-        st.metric("Total Monitored Access Points (APs)", value=int(total_aps))
-    with kpi3:
-        st.metric("Active Critical RMM Alerts", value=int(total_alerts), delta="Action Required" if total_alerts > 0 else "Clear")
-    with kpi4:
-        st.metric("Mean Patch Compliance Rate", value=f"{avg_patch:.1f}%")
+    tc1, tc2, tc3 = st.columns(3)
+    with tc1:
+        st.metric("Total Inbound Ticket Volume", value=len(filtered_tickets))
+    with tc2:
+        st.metric("Active Unresolved Workload", value=open_load)
+    with tc3:
+        total_minutes = filtered_tickets["time_logged_minutes"].sum()
+        st.metric("Total Engineering Duration Logged", value=f"{total_minutes} Mins")
         
     st.write("")
     st.subheader("📊 Master Operational Ticket Board (Daily Live Feed)")
     st.dataframe(filtered_tickets, use_container_width=True, hide_index=True)
     st.write("---")
     
-    # Interactive Workstation Workbench Hook
     st.subheader("🛠️ Active Ticket Workbench Engine")
     if len(filtered_tickets) > 0:
         target_id = st.selectbox("Mount Ticket to Action Center ID:", options=filtered_tickets["ticket_id"].unique())
@@ -131,7 +131,7 @@ if app_panel == "📋 Client Helpdesk Portal":
         with w_in1:
             time_add = st.selectbox("Log Billable Time Slot:", options=[0, 15, 30, 45, 60, 120], format_func=lambda x: f"{x} Mins")
         with w_in2:
-            note_add = st.text_input("Append Engineering Notes:")
+            note_add = st.text_input("Append Engineering Resolution Log notes:")
         with w_in3:
             state_update = st.selectbox("Flag Status Tier:", options=["Open", "In Progress", "Resolved"])
             
@@ -143,42 +143,72 @@ if app_panel == "📋 Client Helpdesk Portal":
             st.success("Authorized entry submitted! Rerunning database tables.")
             st.rerun()
     else:
-        st.warning("No tracking assets match the filtered context selection.")
+        st.warning("No tracking assets match the filtered criteria.")
 
 # ==========================================
-# MODULE 2: TIER REVENUE & SERVICE ACCOUNTS
+# MODULE 2: RMM ALERTS & PATCH MANAGEMENT
+# ==========================================
+elif app_panel == "⚙️ RMM Alerts & Patch Management":
+    st.header("⚙️ Remote Monitoring & Automated Patch Infrastructure")
+    
+    # RMM Summary Cards
+    rc1, rc2, rc3 = st.columns(3)
+    with rc1:
+        st.metric("Total Infrastructure Devices Tracked", value=len(filtered_rmm))
+    with rc2:
+        active_alerts = len(filtered_rmm[filtered_rmm["active_rmm_alert"] != "None"])
+        st.metric("Critical Active Device Alerts", value=active_alerts)
+    with rc3:
+        needs_reboot = len(filtered_rmm[filtered_rmm["patch_compliance"] == "Needs Reboot"])
+        st.metric("Assets Pending OS Reboot", value=needs_reboot)
+        
+    st.write("---")
+    st.subheader("🖥️ Network Asset Inventory & Security Vulnerability Feed")
+    
+    # Custom colored table styling engine for patch compliance states
+    def color_patch_rows(row):
+        if row["patch_compliance"] == "Needs Reboot":
+            return ['background-color: #3E2723; color: #FFCC80'] * len(row)
+        elif row["patch_compliance"] == "Needs Review":
+            return ['background-color: #4A3B00; color: #FFE082'] * len(row)
+        return [''] * len(row)
+        
+    st.dataframe(filtered_rmm.style.apply(color_patch_rows, axis=1), use_container_width=True, hide_index=True)
+    st.write("---")
+    
+    # Distribution Visual Charts
+    p_col1, p_col2 = st.columns(2)
+    with p_col1:
+        fig_patch_pie = px.pie(filtered_rmm, names="patch_compliance", hole=0.4, title="Patch Management Asset Status Shares",
+                               color_discrete_map={"Installed": "#00E676", "Needs Review": "#FFEA00", "Needs Reboot": "#D500F9"})
+        st.plotly_chart(fig_patch_pie, use_container_width=True)
+    with p_col2:
+        fig_device_bar = px.bar(filtered_rmm, x="device_type", color="os_platform", title="Managed Operating System Assets by Architecture",
+                                labels={"device_type": "Hardware Class", "count": "Device Total Volume"})
+        st.plotly_chart(fig_device_bar, use_container_width=True)
+
+# ==========================================
+# MODULE 3: TIER REVENUE & SERVICE ACCOUNTS
 # ==========================================
 elif app_panel == "💰 Tier Revenue & Service Accounts":
     st.header("💰 Account Profitability Matrix & Tier Telemetry")
     
-    rc1, rc2, rc3 = st.columns(3)
-    with rc1:
+    rev_c1, rev_c2, rev_c3 = st.columns(3)
+    with rev_c1:
         total_mrr = filtered_matrix["monthly_recurring_revenue"].sum()
         st.metric("Aggregated Contract MRR Pipeline", value=f"${total_mrr:,.2f}")
-    with rc2:
+    with rev_c2:
         total_extra = filtered_matrix["out_of_scope_spend"].sum()
-        st.metric("Ad-Hoc Project Billing (Avanan/Blackpoint integrations)", value=f"${total_extra:,.2f}")
-    with rc3:
+        st.metric("Out-of-Scope Project Billings (Ad-Hoc)", value=f"${total_extra:,.2f}")
+    with rev_c3:
         overdue_invoices = len(filtered_matrix[filtered_matrix["monthly_bill_status"] == "Overdue"])
-        st.metric("Delinquent Overdue Client Accounts", value=overdue_invoices, delta="Action Required" if overdue_invoices > 0 else "Clear Invoices")
+        st.metric("Delinquent Overdue Client Accounts", value=overdue_invoices, delta="Action Required", delta_color="inverse")
         
     st.write("---")
     st.subheader("🏢 Contract Relationship & Financial Audit Grid")
-    st.dataframe(filtered_matrix[["client_name", "service_tier", "seat_count", "monthly_recurring_revenue", "relationship_length_months", "monthly_bill_status", "out_of_scope_spend"]], use_container_width=True, hide_index=True)
+    st.dataframe(filtered_matrix, use_container_width=True, hide_index=True)
     st.write("---")
     
-    # Premium SaaS Product Portfolio Breakdown List Table
-    st.subheader("📦 Integrated SaaS Cloud Security Products Distribution")
-    saas_products_df = pd.DataFrame({
-        "Product Module Add-On": ["Avanan Complete Protect - Monthly", "BlackPoint Cyber SOC (5-249 Endpoints)", "Acronis Cyber Protect Cloud (per GB)", "Breach Secure Now Platform 1-10"],
-        "MSP Cost Price": ["$6.00", "$8.00", "$0.05", "$30.00"],
-        "Client Retail Price": ["$10.20", "$8.00", "$0.07", "$42.85"],
-        "Gross Profit Margin": ["41.1%", "0.0% (Bundled)", "28.5%", "30.0%"],
-        "Status State": ["Active", "Active", "Active", "Active"]
-    })
-    st.dataframe(saas_products_df, use_container_width=True, hide_index=True)
-    
-    st.write("---")
     g_col1, g_col2 = st.columns(2)
     with g_col1:
         fig_packages = px.bar(
@@ -196,7 +226,7 @@ elif app_panel == "💰 Tier Revenue & Service Accounts":
         st.plotly_chart(fig_scope, use_container_width=True)
 
 # ==========================================
-# MODULE 3: EMAIL MARKETING ANALYTICS
+# MODULE 4: EMAIL MARKETING ANALYTICS
 # ==========================================
 elif app_panel == "📧 Email Marketing Analytics":
     st.header("📧 Growth Performance & B2B Lead List Segments")
@@ -235,20 +265,22 @@ elif app_panel == "📧 Email Marketing Analytics":
     st.write("")
     st.markdown("#### 🔍 Outbound Email Blueprint Inspection Layout")
     inspect_target = st.selectbox("Select Sent Campaign to Inspect Copy Layout:", options=campaign_df["Target Segment"])
-    
     with st.container(border=True):
         if inspect_target == "Law Firms & Attorneys":
             st.markdown("**Subject:** `Is your firm's case file backup compliant with upcoming state data privacy laws?`")
-            st.caption("Hello Team, Legal firms are increasingly targeted for client discovery information. If your on-prem server experiences hardware failures today, how fast can you recover a litigation archive? OmniMetrix provides military-grade server rollbacks to protect compliance...")
+            st.markdown("**Body Framework Copy Preview:**")
+            st.caption("Hello Team, Legal firms are increasingly targeted for client discovery information. If your on-prem server experiences hardware failures today, how fast can you recover a litigation archive? OmniMetrix provides server rollbacks to protect compliance...")
         elif inspect_target == "Certified Public Accountants (CPAs)":
             st.markdown("**Subject:** `How top CPAs completely secure local QuickBooks environments against tax-season ransomware`")
-            st.caption("Hi there, Tax season brings high volumes of financial document movement. One phishing link can lock up your data and halt tax filing timelines. Here is a step-by-step breakdown of how our Entra ID strong authentication layers defend financial profiles...")
+            st.markdown("**Body Framework Copy Preview:**")
+            st.caption("Hi there, Tax season brings high volumes of financial document movement. One phishing link can lock up your data and halt tax filing timelines. Here is a step-by-step breakdown of how our strong authentication layers defend financial profiles...")
         else:
             st.markdown("**Subject:** `Urgent Security Alert: Preventing accidental document leaks on SharePoint networks`")
+            st.markdown("**Body Framework Copy Preview:**")
             st.caption("Dear Administrator, Healthcare regulations require strict data security on patient tracking fields. Broken file inheritance rules within shared drives could expose internal documentation. Let our security teams trace your permission path maps...")
 
 # ==========================================
-# MODULE 4: SOCIAL MEDIA TRACKING
+# MODULE 5: SOCIAL MEDIA TRACKING
 # ==========================================
 elif app_panel == "📱 Social Media Tracking":
     st.header("📱 Multi-Platform Content Analysis & Growth Matrices")
@@ -272,7 +304,7 @@ elif app_panel == "📱 Social Media Tracking":
     st.dataframe(social_analysis.style.apply(color_social_rows, axis=1), use_container_width=True)
 
 # ==========================================
-# MODULE 5: DIGITAL AD SPEND PERFORMANCE
+# MODULE 6: DIGITAL AD SPEND PERFORMANCE
 # ==========================================
 elif app_panel == "🎯 Digital Ad Spend Performance":
     st.header("🎯 Multi-Channel Paid Acquisition & Budget Tracking Matrix")
