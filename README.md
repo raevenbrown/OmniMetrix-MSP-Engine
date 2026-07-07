@@ -4,7 +4,7 @@ An enterprise-grade, multi-tenant B2B Managed Service Provider (MSP) and Infrast
 ## 🏢 Project Architecture & Scope
 OmniMetrix OS serves as a professional software dashboard built for IT and Cybersecurity companies. Instead of tracking loose data across separate spreadsheets, this system establishes a multi-tenant isolation layout. A central manager or account executive can securely monitor an entire multi-company business portfolio at a glance, or isolate just a single corporate client's network on demand.
 
-* **👉 View the Live Interactive Portal Here:** [YOUR_STREAMLIT_LIVE_URL_HERE]
+* **👉 View the Live Interactive Portal Here:** [https://omnimetrix-msp-engine-mbx2qgs8zkdv2vx5jkprkd.streamlit.app/]
 
 ---
 
