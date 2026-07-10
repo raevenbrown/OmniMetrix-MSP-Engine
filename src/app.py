@@ -106,6 +106,9 @@ if "enrollment_funnel_db" not in st.session_state:
         "staff_meeting_prep_notes": [f"SyncroMSP telemetry audit track frame line instance flag {i}." for i in range(1, 41)]
     })
 
+# ==========================================
+# FIXED LENGTH ARRAYS: EXACTLY 20 RECORDS
+# ==========================================
 if "faculty_retention_db" not in st.session_state:
     st.session_state.faculty_retention_db = pd.DataFrame({
         "faculty_id": [f"TECH-{400+i}" for i in range(1, 21)],
@@ -158,7 +161,18 @@ if "faculty_retention_db" not in st.session_state:
             "Stable (>5 Years)", "Stable (>5 Years)", "Review in 1-2 Years", "Stable (>5 Years)", "Stable (>5 Years)", "Immediate Risk (<1 Year)", "Immediate Risk (<1 Year)", "Stable (>5 Years)",
             "Stable (>5 Years)", "Immediate Risk (<1 Year)", "Stable (>5 Years)", "Stable (>5 Years)"
         ],
-        "retention_notes": ["SyncroMSP operational throughput validation checks passed for engineer.", "Seeking certification track clarification.", "Progressing on schedule toward Tier escalation.", "Lead solutions architect. Zero departure indicator markers.", "Burnout indicators identified due to extreme ticket counts. Needs workload intervention.", "Security compliance clearing passed. Stable alignment marker verified.", "Senior team asset. Approaching retirement horizon parameters.", "Market salary compression issues logged. Reviewing compensation structures."] * 3
+        "retention_notes": [
+            "SyncroMSP throughput validation checks complete.", "Seeking path escalation parameters.",
+            "Progressing on timeline baseline track.", "Senior infrastructure asset established.",
+            "Workload indicators signal intervention parameters required.", "Security clearing passed successfully.",
+            "Approaching standard retirement matrix horizon.", "Reviewing market compensation structuring indices.",
+            "SyncroMSP throughput validation checks complete.", "Seeking path escalation parameters.",
+            "Progressing on timeline baseline track.", "Senior infrastructure asset established.",
+            "Workload indicators signal intervention parameters required.", "Security clearing passed successfully.",
+            "Approaching standard retirement matrix horizon.", "Reviewing market compensation structuring indices.",
+            "SyncroMSP throughput validation checks complete.", "Seeking path escalation parameters.",
+            "Progressing on timeline baseline track.", "Senior infrastructure asset established."
+        ] # Fixed array size to exactly 20 elements matching data indices
     })
 
 if "coles_capacity_db" not in st.session_state:
@@ -219,7 +233,7 @@ nav_options.append("📈 Reports & Analytics Compliance Portfolio")
 app_panel = st.sidebar.radio("Select Operational Workspace Desk:", options=nav_options)
 
 # ==========================================
-# MODULE 1: CLIENT LIFE PORTAL
+# MODULE 1: SERVICE DESK PORTAL
 # ==========================================
 if app_panel == "👤 Syncro Service Desk Portal":
     main_workspace, ai_assistant_col = st.columns([3, 1])
@@ -263,7 +277,7 @@ if app_panel == "👤 Syncro Service Desk Portal":
                 st.markdown(f"*🧠 RMM Ingestion Diagnostics Material:* **\"{p_row['staff_meeting_prep_notes']}\"**")
                 
             st.write("---")
-            st.subheader("🛠         Streamline Helpdesk Ticket Resolution Tasks")
+            st.subheader("🛠️ Streamline Helpdesk Ticket Resolution Tasks")
             w1, w2, w3 = st.columns([1, 1, 2])
             with w1: stage_update = st.selectbox("Advance Ticket Status:", options=["Unassigned", "Assigned to me", "In Progress", "Resolved"])
             with w2: camp_update = st.selectbox("Reassign RMM Baseline Script Group:", options=["M365 Baselines Push", "Entra ID Sync Automation", "BitLocker Policy Enforce", "VLAN Reconfiguration"])
@@ -272,7 +286,7 @@ if app_panel == "👤 Syncro Service Desk Portal":
             if st.button("🚀 Commit Adjustments to Centralized Syncro Ledger", use_container_width=True):
                 st.session_state.enrollment_funnel_db.at[idx, "funnel_stage"] = stage_update
                 st.session_state.enrollment_funnel_db.at[idx, "outreach_campaign_group"] = camp_update
-                if append_note: st.session_state.enrollment_funnel_db.at[idx, "staff_meeting_prep_notes"] = f"{p_row['staff_meeting_prep_notes']} | CDO Edit: {append_note}"
+                if append_note: st.session_state.enrollment_funnel_db.at[idx, "staff_meeting_prep_notes"] = f"{p_row['staff_meeting_prep_notes']} | Update: {append_note}"
                 st.success("Syncro ticket fields updated successfully.")
                 st.rerun()
         else: st.warning("No incident telemetry matching current filter scope constraints.")
@@ -294,7 +308,7 @@ if app_panel == "👤 Syncro Service Desk Portal":
         st.button("📅 Dispatch On-Site Support Technician Event", use_container_width=True)
 
 # ==========================================
-# MODULE 2: TECH ROSTER MODULE
+# MODULE 2: TECH WORKLOAD CONSOLE
 # ==========================================
 elif app_panel == "🏛️ MSP Engineering Workload Console":
     st.header("🏛️ MSP Engineering Roster: Performance & Capacity Analytics")
@@ -311,7 +325,7 @@ elif app_panel == "🏛️ MSP Engineering Workload Console":
             f_c1, f_c2, f_c3 = st.columns(3)
             with f_c1:
                 st.markdown(f"**🏢 Tech Escalation Assignment Tier:** `{f_row['appointment_track']}`")
-                st.markdown(f"**⚙         Administrative Operational Status:** `{f_row['faculty_staff_status']}`")
+                st.markdown(f"**⚙️ Administrative Operational Status:** `{f_row['faculty_staff_status']}`")
             with f_c2:
                 st.markdown(f"**⏳ Stated Years with Bunch Consulting:** `{f_row['tenure_years_at_institution']} Years Longevity`")
                 st.markdown(f"**📚 Live Syncro Active Monthly Ticket Volume:** `{f_row['semester_credit_hours_load']} Tickets Assigned`")
@@ -332,7 +346,7 @@ elif app_panel == "🏛️ MSP Engineering Workload Console":
     else: st.warning("No teacher metrics found matching active global sidebar constraints.")
 
 # ==========================================
-# MODULE 3: AUTOMATION MANAGER
+# MODULE 3: AUTOMATION SCRIPT MATRIX
 # ==========================================
 elif app_panel == "📢 Automation Action Script Matrix":
     st.header("📢 Syncro Automation Profile Task Group Dispatcher")
@@ -349,7 +363,7 @@ elif app_panel == "📢 Automation Action Script Matrix":
     st.plotly_chart(fig_funnel, use_container_width=True)
 
 # ==========================================
-# MODULE 4: 10 KEYS PERFORMANCE LEDGER
+# MODULE 4: COMPLIANCE PORTFOLIO
 # ==========================================
 elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
     st.header("📈 Enterprise Reports & Analytics Compliance Gateway")
@@ -464,7 +478,7 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
             c_pf1, f_pf2 = st.columns(2)
             with c_pf1: st.dataframe(res_counts, use_container_width=True, hide_index=True)
             with f_pf2:
-                fig_perf = px.bar(res_counts, x="funnel_stage", y="total_cases", title="Syncro Helpdesk Ticket Resolution Processing Pipeline Rates", color_discrete_sequence=["#00E676"])
+                fig_perf = px.bar(res_counts, x="funnel_stage", y="total_cases", title="Syncro Helpdesk Ticket Resolution Conversion Processing Pipeline Rates", color_discrete_sequence=["#00E676"])
                 st.plotly_chart(fig_perf, use_container_width=True)
 
     elif "10. Collaborate with a variety of stakeholders across campus" in selected_key_tab:
