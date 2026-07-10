@@ -106,9 +106,6 @@ if "enrollment_funnel_db" not in st.session_state:
         "staff_meeting_prep_notes": [f"SyncroMSP telemetry audit track frame line instance flag {i}." for i in range(1, 41)]
     })
 
-# ==========================================
-# FIXED LENGTH ARRAYS: EXACTLY 20 RECORDS
-# ==========================================
 if "faculty_retention_db" not in st.session_state:
     st.session_state.faculty_retention_db = pd.DataFrame({
         "faculty_id": [f"TECH-{400+i}" for i in range(1, 21)],
@@ -120,10 +117,10 @@ if "faculty_retention_db" not in st.session_state:
             "Dr. Severus Snape", "Prof. Gilderoy Lockhart", "Dr. Remus Lupin", "Dr. Pomona Sprout"
         ],
         "department_assignment": [
-            "Biology", "Information Systems", "Economics", "Management", "Marketing", 
-            "Accounting", "Cybersecurity", "Finance", "Biology", "Accounting", 
-            "Cybersecurity", "Economics", "Entrepreneurship", "Finance", "Hospitality Management", 
-            "Information Systems", "Management", "Marketing", "Hospitality Management", "Entrepreneurship"
+            "Bunch Consulting LLC", "5 Boroughs Delicatessen, LLC", "Cordance Medical", "Inspire Nurse Leaders", "Medtechnik",
+            "Bunch Consulting Academy", "Bunch Legal Group P.C.", "Expert Innovative Solutions", "Grant Solutions Partners LLC", "JPCC Associates",
+            "Karma Advisory", "LAO Group LLC", "My Velocity Group", "New Paradigm CFO", "Professional Environmental Consultants",
+            "Reveille Executive Coaching & Consulting", "RoBailey Consulting", "Southeast Bookkeeping", "Sudler Property Management", "SYLWOS"
         ],
         "appointment_track": [
             "Tier 3 Cybersecurity Lead", "Tier 2 Systems Admin", "Tier 1 Helpdesk Specialist", "Tier 3 Cybersecurity Lead", 
@@ -172,7 +169,7 @@ if "faculty_retention_db" not in st.session_state:
             "Approaching standard retirement matrix horizon.", "Reviewing market compensation structuring indices.",
             "SyncroMSP throughput validation checks complete.", "Seeking path escalation parameters.",
             "Progressing on timeline baseline track.", "Senior infrastructure asset established."
-        ] # Fixed array size to exactly 20 elements matching data indices
+        ]
     })
 
 if "coles_capacity_db" not in st.session_state:
@@ -188,7 +185,7 @@ if "coles_capacity_db" not in st.session_state:
 ksu_gold_palette = ["#FFC400", "#161B22", "#FFA000", "#FF8F00", "#4E5D6C", "#FF5722", "#00E676"]
 
 # ==========================================
-# SIDEBAR SELECTION SYSTEM
+# SIDEBAR SELECTION SYSTEM (FULLY PURGED)
 # ==========================================
 st.sidebar.title("🛡️ Bunch Control Console")
 st.sidebar.markdown("**Enterprise MSP Engine:** `Bunch Consulting LLC`")
@@ -201,24 +198,24 @@ st.sidebar.write("---")
 
 st.sidebar.subheader("🗂️ Global RMM Filters")
 
-dept_filter = st.sidebar.selectbox("Filter by Customer Organization:", options=["All Departments"] + list(st.session_state.enrollment_funnel_db["intended_major"].unique()))
-term_filter = st.sidebar.selectbox("Filter by Contract Service Tier Plan:", options=["All Semesters", "Silver Plan", "Gold Plan", "Platinum Plan"])
-studentvue_filter = st.sidebar.selectbox("Filter by Syncro RMM Agent State:", options=["All Student Tiers", "Good Standing - Regular Sync", "Patching Alert - Pending Reboot", "Firewall Hold - Security Exception", "Critical Alert - Agent Offline"])
-faculty_status_filter = st.sidebar.selectbox("Filter by Technical Dispatch Core Status:", options=["All Faculty Tiers", "Active - Full Operations Load", "Pending Certification Update", "Standby - Available Onsite", "On Temporary Leave"])
+dept_filter = st.sidebar.selectbox("Filter by Customer Organization:", options=["All Organizations"] + list(st.session_state.enrollment_funnel_db["intended_major"].unique()))
+term_filter = st.sidebar.selectbox("Filter by Contract Service Tier Plan:", options=["All Contract Tiers", "Silver Plan", "Gold Plan", "Platinum Plan"])
+studentvue_filter = st.sidebar.selectbox("Filter by Syncro RMM Agent State:", options=["All Agent Sync States", "Good Standing - Regular Sync", "Patching Alert - Pending Reboot", "Firewall Hold - Security Exception", "Critical Alert - Agent Offline"])
+faculty_status_filter = st.sidebar.selectbox("Filter by Technical Team Dispatch Status:", options=["All Tech Work States", "Active - Full Operations Load", "Pending Certification Update", "Standby - Available Onsite"])
 
 processed_funnel = st.session_state.enrollment_funnel_db.copy()
 processed_faculty = st.session_state.faculty_retention_db.copy()
 
-if dept_filter != "All Departments":
+if dept_filter != "All Organizations":
     processed_funnel = processed_funnel[processed_funnel["intended_major"] == dept_filter]
 
-if term_filter != "All Semesters":
+if term_filter != "All Contract Tiers":
     processed_funnel = processed_funnel[processed_funnel["academic_term"] == term_filter]
 
-if studentvue_filter != "All Student Tiers":
+if studentvue_filter != "All Agent Sync States":
     processed_funnel = processed_funnel[processed_funnel["studentvue_sync_status"] == studentvue_filter]
 
-if faculty_status_filter != "All Faculty Tiers":
+if faculty_status_filter != "All Tech Work States":
     processed_faculty = processed_faculty[processed_faculty["faculty_staff_status"] == faculty_status_filter]
 
 st.sidebar.write("---")
@@ -233,7 +230,7 @@ nav_options.append("📈 Reports & Analytics Compliance Portfolio")
 app_panel = st.sidebar.radio("Select Operational Workspace Desk:", options=nav_options)
 
 # ==========================================
-# MODULE 1: SERVICE DESK PORTAL
+# MODULE 1: CLIENT LIFE PORTAL
 # ==========================================
 if app_panel == "👤 Syncro Service Desk Portal":
     main_workspace, ai_assistant_col = st.columns([3, 1])
@@ -286,7 +283,7 @@ if app_panel == "👤 Syncro Service Desk Portal":
             if st.button("🚀 Commit Adjustments to Centralized Syncro Ledger", use_container_width=True):
                 st.session_state.enrollment_funnel_db.at[idx, "funnel_stage"] = stage_update
                 st.session_state.enrollment_funnel_db.at[idx, "outreach_campaign_group"] = camp_update
-                if append_note: st.session_state.enrollment_funnel_db.at[idx, "staff_meeting_prep_notes"] = f"{p_row['staff_meeting_prep_notes']} | Update: {append_note}"
+                if append_note: st.session_state.enrollment_funnel_db.at[idx, "staff_meeting_prep_notes"] = f"{p_row['staff_meeting_prep_notes']} | CDO Edit: {append_note}"
                 st.success("Syncro ticket fields updated successfully.")
                 st.rerun()
         else: st.warning("No incident telemetry matching current filter scope constraints.")
@@ -363,7 +360,7 @@ elif app_panel == "📢 Automation Action Script Matrix":
     st.plotly_chart(fig_funnel, use_container_width=True)
 
 # ==========================================
-# MODULE 4: COMPLIANCE PORTFOLIO
+# MODULE 4: 10 KEYS PERFORMANCE LEDGER
 # ==========================================
 elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
     st.header("📈 Enterprise Reports & Analytics Compliance Gateway")
@@ -374,15 +371,15 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
         "Key ID": [f"Key {i}" for i in range(1, 11)],
         "Job Description Requirement Statement": [
             "1. Compiles standard and ad hoc reports per established guidelines and frequency",
-            "2. Provides reports, analysis and data interpretation for all assigned departments",
+            "2. Provides reports, analysis and data interpretation for all assigned corporate accounts",
             "3. Identifies areas of opportunity and presents findings and recommendations to leadership and stakeholders",
             "4. Provides productivity analysis reports",
             "5. Develops and maintains reports to measure operational and/or utilization activity",
-            "6. May be required to prepare ad hoc reports required of association affiliations and/or oversight and regulatory requirements",
+            "6. May be required to prepare ad hoc reports required of regulatory frameworks and oversight criteria",
             "7. Compiles recurring operational review that includes trend analysis",
-            "8. May assists with departmental inventory reporting and analysis",
-            "9. May be required to prepare ad hoc reporting that assists with measuring department performance and/or effectiveness",
-            "10. Collaborate with a variety of stakeholders across campus, including working closely with the Office of University Data Strategy to maintain alignment with overall university data strategy"
+            "8. May assists with corporate asset inventory reporting and analysis",
+            "9. May be required to prepare ad hoc reporting that assists with measuring systems performance and/or effectiveness",
+            "10. Collaborate with a variety of stakeholders, including working closely with the Enterprise Data Strategy group to maintain organizational alignment"
         ],
         "Dashboard Validation Status": ["🟢 Engine Integrated & Deployable"] * 10
     })
