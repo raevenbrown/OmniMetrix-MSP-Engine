@@ -35,7 +35,7 @@ if "enrollment_funnel_db" not in st.session_state:
             "Medtechnik", "Bunch Consulting Academy", "Bunch Legal Group P.C.", "Expert Innovative Solutions", "Grant Solutions Partners LLC",
             "JPCC Associates", "Karma Advisory", "LAO Group LLC", "My Velocity Group", "New Paradigm CFO",
             "Professional Environmental Consultants", "Reveille Executive Coaching & Consulting", "RoBailey Consulting", "Southeast Bookkeeping", "Sudler Property Management"
-        ], # Populated directly from your SyncroMSP Client List screen
+        ],
         "academic_term": [
             "Silver Plan", "Gold Plan", "Platinum Plan", "Silver Plan", "Platinum Plan", 
             "Silver Plan", "Platinum Plan", "Gold Plan", "Gold Plan", "Gold Plan",
@@ -45,7 +45,7 @@ if "enrollment_funnel_db" not in st.session_state:
             "Silver Plan", "Platinum Plan", "Gold Plan", "Gold Plan", "Gold Plan",
             "Silver Plan", "Gold Plan", "Platinum Plan", "Silver Plan", "Platinum Plan", 
             "Silver Plan", "Platinum Plan", "Gold Plan", "Gold Plan", "Gold Plan"
-        ], # Mapped to your Silver ($85), Gold ($125), Platinum ($175) one-pager pricing plans
+        ],
         "classification": [
             "Cloud Infrastructure", "Local Workspace", "Cybersecurity Audit", "Network Hardware", "Business Continuity",
             "Cloud Infrastructure", "Local Workspace", "Cybersecurity Audit", "Network Hardware", "Business Continuity",
@@ -61,7 +61,7 @@ if "enrollment_funnel_db" not in st.session_state:
             3.40, 2.90, 3.75, 1.80, 2.65, 3.10, 2.25, 3.55, 3.90, 2.40,
             3.15, 2.70, 3.60, 2.10, 3.45, 2.80, 3.85, 1.90, 2.95, 3.35,
             3.20, 2.60, 3.65, 2.30, 3.50, 2.75, 3.95, 1.75, 2.50, 3.05
-        ], # System Health Index Rating
+        ],
         "studentvue_sync_status": [
             "Good Standing - Regular Sync", "Good Standing - Regular Sync", "Patching Alert - Pending Reboot", 
             "Good Standing - Regular Sync", "Good Standing - Regular Sync", "Good Standing - Regular Sync", 
@@ -82,7 +82,7 @@ if "enrollment_funnel_db" not in st.session_state:
             "Resolved", "Resolved", "Resolved", "Assigned to me", "Resolved", "Resolved", "Resolved", "Resolved", "Assigned to me", "Resolved",
             "Resolved", "Resolved", "Resolved", "Assigned to me", "Resolved", "Resolved", "Resolved", "Resolved", "Assigned to me", "Resolved",
             "Resolved", "Resolved", "Resolved", "Assigned to me", "Resolved", "Resolved", "Resolved", "Resolved", "Assigned to me", "Unassigned"
-        ], # Synced exactly to your Ticket Metrics view (Assigned to me: 42, Resolved: 1197, Unassigned: 114)
+        ],
         "outreach_campaign_group": [
             "M365 Baselines Push", "M365 Baselines Push", "M365 Baselines Push", "M365 Baselines Push", "M365 Baselines Push", 
             "M365 Baselines Push", "M365 Baselines Push", "Entra ID Sync Automation", "BitLocker Policy Enforce", "VLAN Reconfiguration",
@@ -106,9 +106,6 @@ if "enrollment_funnel_db" not in st.session_state:
         "staff_meeting_prep_notes": [f"SyncroMSP telemetry audit track frame line instance flag {i}." for i in range(1, 41)]
     })
 
-# ==========================================
-# CENTRALIZED DATA STATE: 20 DETAILED MSP TECHNICIAN PROFILES
-# ==========================================
 if "faculty_retention_db" not in st.session_state:
     st.session_state.faculty_retention_db = pd.DataFrame({
         "faculty_id": [f"TECH-{400+i}" for i in range(1, 21)],
@@ -118,7 +115,7 @@ if "faculty_retention_db" not in st.session_state:
             "Dr. Robert Langdon", "Prof. Minerva McGonagall", "Dr. Alan Grant", "Dr. Ellie Sattler",
             "Prof. Charles Xavier", "Dr. Henry Wu", "Dr. Ian Malcolm", "Prof. Albus Dumbledore",
             "Dr. Severus Snape", "Prof. Gilderoy Lockhart", "Dr. Remus Lupin", "Dr. Pomona Sprout"
-        ], # Stable array name string index maps
+        ],
         "department_assignment": [
             "Biology", "Information Systems", "Economics", "Management", "Marketing", 
             "Accounting", "Cybersecurity", "Finance", "Biology", "Accounting", 
@@ -133,24 +130,24 @@ if "faculty_retention_db" not in st.session_state:
             "Tier 3 Cybersecurity Lead", "Tier 2 Systems Admin", "Tier 1 Helpdesk Specialist", "Tier 3 Cybersecurity Lead"
         ],
         "faculty_staff_status": [
-            "Active - Full Instructional Load", "Active - Full Instructional Load", "Pending Tenure Review Notice", 
-            "Sabbatical - Research Active", "Active - Full Instructional Load", "Pending Tenure Review Notice", 
-            "Active - Full Instructional Load", "Medical Leave", "Active - Full Instructional Load",
-            "Active - Full Instructional Load", "Pending Tenure Review Notice", "Active - Full Instructional Load",
-            "Sabbatical - Research Active", "Active - Full Instructional Load", "Active - Full Instructional Load",
-            "Active - Full Instructional Load", "Active - Full Instructional Load", "Medical Leave",
-            "Pending Tenure Review Notice", "Active - Full Instructional Load"
+            "Active - Full Operations Load", "Active - Full Operations Load", "Pending Certification Update", 
+            "Standby - Available Onsite", "Active - Full Operations Load", "Pending Certification Update", 
+            "Active - Full Operations Load", "On Temporary Leave", "Active - Full Operations Load",
+            "Active - Full Operations Load", "Pending Certification Update", "Active - Full Operations Load",
+            "Standby - Available Onsite", "Active - Full Operations Load", "Active - Full Operations Load",
+            "Active - Full Operations Load", "Active - Full Operations Load", "On Temporary Leave",
+            "Pending Certification Update", "Active - Full Operations Load"
         ],
         "tenure_years_at_institution": [
             12.5, 3.0, 4.5, 16.0, 2.5, 5.0, 14.0, 1.5,
             8.0, 22.0, 3.5, 11.0, 19.5, 4.0, 1.0, 35.0,
             15.0, 2.0, 5.5, 13.0
-        ], # Years staying at Bunch Consulting LLC
+        ],
         "semester_credit_hours_load": [
             42, 58, 39, 31, 62, 41, 33, 60,
             45, 30, 51, 40, 28, 59, 61, 20,
             35, 55, 43, 38
-        ], # Assigned Monthly Tickets Count (SyncroMSP Queue Metrics)
+        ],
         "faculty_retention_hazard_flag": [
             "Low Risk", "Medium Risk", "Low Risk", "Low Risk", "High Risk", "Low Risk", "Low Risk", "Medium Risk",
             "Low Risk", "Low Risk", "Medium Risk", "Low Risk", "Low Risk", "High Risk", "High Risk", "Low Risk",
@@ -161,12 +158,12 @@ if "faculty_retention_db" not in st.session_state:
             "Stable (>5 Years)", "Stable (>5 Years)", "Review in 1-2 Years", "Stable (>5 Years)", "Stable (>5 Years)", "Immediate Risk (<1 Year)", "Immediate Risk (<1 Year)", "Stable (>5 Years)",
             "Stable (>5 Years)", "Immediate Risk (<1 Year)", "Stable (>5 Years)", "Stable (>5 Years)"
         ],
-        "retention_notes": [f"SyncroMSP operational throughput validation checks passed for engineer {i}." for i in range(1, 21)]
+        "retention_notes": ["SyncroMSP operational throughput validation checks passed for engineer.", "Seeking certification track clarification.", "Progressing on schedule toward Tier escalation.", "Lead solutions architect. Zero departure indicator markers.", "Burnout indicators identified due to extreme ticket counts. Needs workload intervention.", "Security compliance clearing passed. Stable alignment marker verified.", "Senior team asset. Approaching retirement horizon parameters.", "Market salary compression issues logged. Reviewing compensation structures."] * 3
     })
 
 if "coles_capacity_db" not in st.session_state:
     st.session_state.coles_capacity_db = pd.DataFrame({
-        "major_name": ["Biology", "Accounting", "Cybersecurity", "Economics", "Entrepreneurship", "Finance", "Hospitality Management", "Information Systems", "Management", "Marketing"],
+        "major_name": ["Cloud Ops", "Database Admin", "Cybersecurity", "Network Routing", "SaaS Management", "Identity Access", "Storage Infrastructure", "VOIP Systems", "Helpdesk Desk", "Compliance Auditing"],
         "undergrad_seat_count": [850, 1250, 680, 410, 350, 980, 240, 890, 1650, 1420],
         "semester_credit_hours": [12400, 18400, 9100, 5200, 4800, 24500, 3100, 9400, 19800, 14200],
         "retention_goal_pct": [84.0, 85.0, 88.0, 80.0, 82.0, 82.0, 80.0, 88.0, 80.0, 85.0],
@@ -177,7 +174,7 @@ if "coles_capacity_db" not in st.session_state:
 ksu_gold_palette = ["#FFC400", "#161B22", "#FFA000", "#FF8F00", "#4E5D6C", "#FF5722", "#00E676"]
 
 # ==========================================
-# SIDEBAR SELECTION SYSTEM (PURGED ACADEMIC TEXT)
+# SIDEBAR SELECTION SYSTEM
 # ==========================================
 st.sidebar.title("🛡️ Bunch Control Console")
 st.sidebar.markdown("**Enterprise MSP Engine:** `Bunch Consulting LLC`")
@@ -193,7 +190,7 @@ st.sidebar.subheader("🗂️ Global RMM Filters")
 dept_filter = st.sidebar.selectbox("Filter by Customer Organization:", options=["All Departments"] + list(st.session_state.enrollment_funnel_db["intended_major"].unique()))
 term_filter = st.sidebar.selectbox("Filter by Contract Service Tier Plan:", options=["All Semesters", "Silver Plan", "Gold Plan", "Platinum Plan"])
 studentvue_filter = st.sidebar.selectbox("Filter by Syncro RMM Agent State:", options=["All Student Tiers", "Good Standing - Regular Sync", "Patching Alert - Pending Reboot", "Firewall Hold - Security Exception", "Critical Alert - Agent Offline"])
-faculty_status_filter = st.sidebar.selectbox("Filter by Technical Dispatch Core Status:", options=["All Faculty Tiers", "Active - Full Instructional Load", "Pending Tenure Review Notice", "Sabbatical - Research Active", "Medical Leave"])
+faculty_status_filter = st.sidebar.selectbox("Filter by Technical Dispatch Core Status:", options=["All Faculty Tiers", "Active - Full Operations Load", "Pending Certification Update", "Standby - Available Onsite", "On Temporary Leave"])
 
 processed_funnel = st.session_state.enrollment_funnel_db.copy()
 processed_faculty = st.session_state.faculty_retention_db.copy()
@@ -214,17 +211,17 @@ st.sidebar.write("---")
 st.sidebar.subheader("🏁 Navigation Terminal")
 
 nav_options = []
-if show_students: nav_options.append("👤 Student Lifecycle Portal (StudentVue)")
-if show_faculty: nav_options.append("🏛️ Faculty Retention Terminal")
-if show_students: nav_options.append("📢 EAB Targeted Campaign Manager")
-nav_options.append("📈 Reports & Analytics Gateway (All 10 Keys)")
+if show_students: nav_options.append("👤 Syncro Service Desk Portal")
+if show_faculty: nav_options.append("🏛️ MSP Engineering Workload Console")
+if show_students: nav_options.append("📢 Automation Action Script Matrix")
+nav_options.append("📈 Reports & Analytics Compliance Portfolio")
 
 app_panel = st.sidebar.radio("Select Operational Workspace Desk:", options=nav_options)
 
 # ==========================================
-# MODULE 1: CLIENT LIFE PORTAL (STUDENTVUE CODE FRAME)
+# MODULE 1: CLIENT LIFE PORTAL
 # ==========================================
-if app_panel == "👤 Student Lifecycle Portal (StudentVue)":
+if app_panel == "👤 Syncro Service Desk Portal":
     main_workspace, ai_assistant_col = st.columns([3, 1])
     
     with main_workspace:
@@ -266,7 +263,7 @@ if app_panel == "👤 Student Lifecycle Portal (StudentVue)":
                 st.markdown(f"*🧠 RMM Ingestion Diagnostics Material:* **\"{p_row['staff_meeting_prep_notes']}\"**")
                 
             st.write("---")
-            st.subheader("🛠️ Streamline Helpdesk Ticket Resolution Tasks")
+            st.subheader("🛠         Streamline Helpdesk Ticket Resolution Tasks")
             w1, w2, w3 = st.columns([1, 1, 2])
             with w1: stage_update = st.selectbox("Advance Ticket Status:", options=["Unassigned", "Assigned to me", "In Progress", "Resolved"])
             with w2: camp_update = st.selectbox("Reassign RMM Baseline Script Group:", options=["M365 Baselines Push", "Entra ID Sync Automation", "BitLocker Policy Enforce", "VLAN Reconfiguration"])
@@ -275,7 +272,7 @@ if app_panel == "👤 Student Lifecycle Portal (StudentVue)":
             if st.button("🚀 Commit Adjustments to Centralized Syncro Ledger", use_container_width=True):
                 st.session_state.enrollment_funnel_db.at[idx, "funnel_stage"] = stage_update
                 st.session_state.enrollment_funnel_db.at[idx, "outreach_campaign_group"] = camp_update
-                if append_note: st.session_state.enrollment_funnel_db.at[idx, "staff_meeting_prep_notes"] = f"{p_row['staff_meeting_prep_notes']} | Update: {append_note}"
+                if append_note: st.session_state.enrollment_funnel_db.at[idx, "staff_meeting_prep_notes"] = f"{p_row['staff_meeting_prep_notes']} | CDO Edit: {append_note}"
                 st.success("Syncro ticket fields updated successfully.")
                 st.rerun()
         else: st.warning("No incident telemetry matching current filter scope constraints.")
@@ -297,9 +294,9 @@ if app_panel == "👤 Student Lifecycle Portal (StudentVue)":
         st.button("📅 Dispatch On-Site Support Technician Event", use_container_width=True)
 
 # ==========================================
-# MODULE 2: FACULTY RETENTION MODULE
+# MODULE 2: TECH ROSTER MODULE
 # ==========================================
-elif app_panel == "🏛️ Faculty Retention Terminal":
+elif app_panel == "🏛️ MSP Engineering Workload Console":
     st.header("🏛️ MSP Engineering Roster: Performance & Capacity Analytics")
     st.markdown("##### *Auditing technician service years, live ticket workload balancing metrics, and retention threat hazard parameters.*")
     st.write("---")
@@ -314,7 +311,7 @@ elif app_panel == "🏛️ Faculty Retention Terminal":
             f_c1, f_c2, f_c3 = st.columns(3)
             with f_c1:
                 st.markdown(f"**🏢 Tech Escalation Assignment Tier:** `{f_row['appointment_track']}`")
-                st.markdown(f"**⚙️ Administrative Operational Status:** `{f_row['faculty_staff_status']}`")
+                st.markdown(f"**⚙         Administrative Operational Status:** `{f_row['faculty_staff_status']}`")
             with f_c2:
                 st.markdown(f"**⏳ Stated Years with Bunch Consulting:** `{f_row['tenure_years_at_institution']} Years Longevity`")
                 st.markdown(f"**📚 Live Syncro Active Monthly Ticket Volume:** `{f_row['semester_credit_hours_load']} Tickets Assigned`")
@@ -335,9 +332,9 @@ elif app_panel == "🏛️ Faculty Retention Terminal":
     else: st.warning("No teacher metrics found matching active global sidebar constraints.")
 
 # ==========================================
-# MODULE 3: OUTREACH CAMPAIGN MANAGER
+# MODULE 3: AUTOMATION MANAGER
 # ==========================================
-elif app_panel == "📢 EAB Targeted Campaign Manager":
+elif app_panel == "📢 Automation Action Script Matrix":
     st.header("📢 Syncro Automation Profile Task Group Dispatcher")
     st.write("---")
     with st.form("campaign_creation_desk"):
@@ -345,16 +342,16 @@ elif app_panel == "📢 EAB Targeted Campaign Manager":
         c_channel = st.selectbox("Primary deployment Execution Strategy Channel:", options=["Targeted PowerShell Sequences via Agent", "Automated E-Mail Ticket Prompts", "RMM Bulk Scripting Push"])
         c_cohort = st.selectbox("Target Customer System Scope Ring:", options=["Inquiry Population Pool", "Patching Exception Groups", "Critical Agent Warning Alerts Tiers"])
         if st.form_submit_button("🚀 Deploy Nuanced Automation Script Strategy"):
-            st.success(f"RMM Script Engine Strategy task group '{c_name}' deployed successfully! Signals pushed via central console endpoints.")
+            st.success(f"RMM Script Engine Strategy task group '{c_name}' deployed successfully!")
 
     st.write("---")
     fig_funnel = px.bar(processed_funnel, x="funnel_stage", title="Continuous Progress Helpdesk Resolution Funnel Analytics Curve", color="funnel_stage", color_discrete_sequence=ksu_gold_palette)
     st.plotly_chart(fig_funnel, use_container_width=True)
 
 # ==========================================
-# MODULE 4: REPORTS & ANALYTICS PORTFOLIO GATEWAY (ALL 10 KEYS CLEANED FOR BUNCH LLC)
+# MODULE 4: 10 KEYS PERFORMANCE LEDGER
 # ==========================================
-elif app_panel == "📈 Reports & Analytics Gateway (All 10 Keys)":
+elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
     st.header("📈 Enterprise Reports & Analytics Compliance Gateway")
     st.markdown("##### *Mapping interactive query views to verify all 10 core analytical milestones against your technical infrastructure directives.*")
     st.write("---")
@@ -407,7 +404,7 @@ elif app_panel == "📈 Reports & Analytics Gateway (All 10 Keys)":
         low_perf_leads = processed_funnel[processed_funnel["cumulative_gpa"] < 2.5] if len(processed_funnel) > 0 else pd.DataFrame()
         with st.container(border=True):
             st.markdown("🏆 **Executive Data Insights Memorandum — Bunch Consulting Corporate Board**")
-            st.write(f"1. **Identified Area of Opportunity:** Found **{len(low_perf_leads)}** endpoint agent entities demonstrating device stability indices beneath the 2.5 baseline target.")
+            st.write(f"1. **Identified Area of Opportunity:** Found **{len(low_perf_leads)}** endpoint agent entities demonstrating device stability indices beneath the target line.")
             st.write("2. **Analytical Interpretation:** Root cause logging verifies a high correlation with obsolete patch bundles and missing credential validation updates.")
             st.write("3. **Actionable Strategic Recommendation:** Execute automated mass PowerShell alignment scripting over identified target vectors to eliminate processing friction.")
         if len(low_perf_leads) > 0:
@@ -440,16 +437,16 @@ elif app_panel == "📈 Reports & Analytics Gateway (All 10 Keys)":
         with st.container(border=True):
             st.markdown(f"📁 **Active Compliance Manifest Structure:** `{reg_target}`")
             st.write("*   **Relational Assets Bound:** Bunch Consulting corporate endpoint database structures.")
-            st.success("🟢 Validation Protocol Evaluation: Pass. System metrics, schema mappings, and ledger structures comply 100% with standard verification audits.")
+            st.success("🟢 Validation Protocol Evaluation: Pass. System metrics compliance structures map completely to standards.")
 
     elif "7. Compiles recurring operational review that includes trend analysis" in selected_key_tab:
-        st.markdown("### 📈 Key 7: Multi-Semester Managed Services Performance Trend Review")
+        st.markdown("### 📈 Key 7: Multi-Quarter Infrastructure System Performance Trend Review")
         trend_df = st.session_state.coles_capacity_db.copy()
         trend_df["retention_shortfall"] = trend_df["retention_goal_pct"] - trend_df["actual_retention_pct"]
         c_t1, c_t2 = st.columns([2, 3])
         with c_t1: st.dataframe(trend_df[["major_name", "retention_goal_pct", "actual_retention_pct", "retention_shortfall"]], use_container_width=True, hide_index=True)
         with c_t2:
-            fig_trend = px.line(trend_df, x="major_name", y="retention_shortfall", title="Longitudinal Core SLA Attrition Metric Gaps Profile Trends", markers=True, color_discrete_sequence=["#FF5722"])
+            fig_trend = px.line(trend_df, x="major_name", y="retention_shortfall", title="Longitudinal Core SLA Performance Gaps Profile Trends", markers=True, color_discrete_sequence=["#FF5722"])
             st.plotly_chart(fig_trend, use_container_width=True)
 
     elif "8. May assists with departmental inventory" in selected_key_tab:
@@ -457,7 +454,7 @@ elif app_panel == "📈 Reports & Analytics Gateway (All 10 Keys)":
         c_i1, c_i2 = st.columns(2)
         with c_i1: st.dataframe(st.session_state.coles_capacity_db[["major_name", "undergrad_seat_count", "department_inventory_count"]], use_container_width=True, hide_index=True)
         with c_i2:
-            fig_inv = px.bar(st.session_state.coles_capacity_db, x="major_name", y="department_inventory_count", title="Active Managed Gateway Kiosks Deployed per Operational Zone", color_discrete_sequence=["#4E5D6C"])
+            fig_inv = px.bar(st.session_state.coles_capacity_db, x="major_name", y="department_inventory_count", title="Active Managed Infrastructure Gateways Deployed per Operational Area", color_discrete_sequence=["#4E5D6C"])
             st.plotly_chart(fig_inv, use_container_width=True)
 
     elif "9. May be required to prepare ad hoc reporting that assists with measuring department performance" in selected_key_tab:
@@ -467,7 +464,7 @@ elif app_panel == "📈 Reports & Analytics Gateway (All 10 Keys)":
             c_pf1, f_pf2 = st.columns(2)
             with c_pf1: st.dataframe(res_counts, use_container_width=True, hide_index=True)
             with f_pf2:
-                fig_perf = px.bar(res_counts, x="funnel_stage", y="total_cases", title="Syncro Helpdesk Ticket Resolution Conversion Processing Pipeline Rates", color_discrete_sequence=["#00E676"])
+                fig_perf = px.bar(res_counts, x="funnel_stage", y="total_cases", title="Syncro Helpdesk Ticket Resolution Processing Pipeline Rates", color_discrete_sequence=["#00E676"])
                 st.plotly_chart(fig_perf, use_container_width=True)
 
     elif "10. Collaborate with a variety of stakeholders across campus" in selected_key_tab:
