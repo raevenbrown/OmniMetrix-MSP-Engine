@@ -7,9 +7,8 @@ from datetime import date
 st.set_page_config(page_title="Bunch Consulting MSP Control Suite", layout="wide")
 
 # ==========================================
-# CENTRALIZED HIGH-DENSITY LIFE CYCLE DATA STATES (40 SYNCRO TICKET/CLIENT RECORDS)
+# CENTRALIZED DATA STATES (40 SYNCRO TICKET/CLIENT RECORDS)
 # ==========================================
-
 if "enrollment_funnel_db" not in st.session_state:
     st.session_state.enrollment_funnel_db = pd.DataFrame({
         "ticket_id": [f"TIC-{4200+i}" for i in range(1, 41)],
@@ -106,15 +105,18 @@ if "enrollment_funnel_db" not in st.session_state:
         "rmm_telemetry_logs": [f"SyncroMSP telemetry audit track frame line instance flag {i}." for i in range(1, 41)]
     })
 
+# ==========================================
+# FIXED LENGTH ARRAYS: 20 CLEANED MSP ENGINEERS
+# ==========================================
 if "faculty_retention_db" not in st.session_state:
     st.session_state.faculty_retention_db = pd.DataFrame({
         "engineer_id": [f"TECH-{400+i}" for i in range(1, 21)],
         "engineer_name": [
-            "Dr. Stacey Nebriaga", "Prof. Michael Gabriele", "Dr. Tyler Pede", "Dr. Thomas Anderson", 
-            "Prof. Emily Holzgrefe", "Dr. Sarah Jenkins", "Dr. David Vance", "Prof. Elena Rostova",
-            "Dr. Robert Langdon", "Prof. Minerva McGonagall", "Dr. Alan Grant", "Dr. Ellie Sattler",
-            "Prof. Charles Xavier", "Dr. Henry Wu", "Dr. Ian Malcolm", "Prof. Albus Dumbledore",
-            "Dr. Severus Snape", "Prof. Gilderoy Lockhart", "Dr. Remus Lupin", "Dr. Pomona Sprout"
+            "Stacey Nebriaga", "Michael Gabriele", "Tyler Pede", "Thomas Anderson", 
+            "Emily Holzgrefe", "Sarah Jenkins", "David Vance", "Elena Rostova",
+            "Robert Langdon", "Minerva McGonagall", "Alan Grant", "Ellie Sattler",
+            "Charles Xavier", "Henry Wu", "Ian Malcolm", "Albus Dumbledore",
+            "Severus Snape", "Gilderoy Lockhart", "Remus Lupin", "Pomona Sprout"
         ],
         "assigned_focus_area": [
             "Cloud Ops", "Database Admin", "Cybersecurity", "Network Routing", "SaaS Management", 
@@ -172,8 +174,8 @@ if "faculty_retention_db" not in st.session_state:
         ]
     })
 
-if "coles_capacity_db" not in st.session_state:
-    st.session_state.coles_capacity_db = pd.DataFrame({
+if "bunch_capacity_db" not in st.session_state:
+    st.session_state.bunch_capacity_db = pd.DataFrame({
         "infrastructure_node": ["Cloud Ops", "Database Admin", "Cybersecurity", "Network Routing", "SaaS Management", "Identity Access", "Storage Infrastructure", "VOIP Systems", "Helpdesk Desk", "Compliance Auditing"],
         "total_monitored_endpoints": [850, 1250, 680, 410, 350, 980, 240, 890, 1650, 1420],
         "monthly_hours_allocated": [12400, 18400, 9100, 5200, 4800, 24500, 3100, 9400, 19800, 14200],
@@ -181,8 +183,6 @@ if "coles_capacity_db" not in st.session_state:
         "actual_sla_pct": [81.2, 82.4, 86.7, 79.1, 81.5, 76.8, 80.2, 89.5, 74.2, 81.1],
         "deployed_hardware_inventory": [45, 120, 85, 30, 25, 110, 15, 60, 140, 130]
     })
-
-ksu_gold_palette = ["#FFC400", "#161B22", "#FFA000", "#FF8F00", "#4E5D6C", "#FF5722", "#00E676"]
 
 # ==========================================
 # SIDEBAR SELECTION SYSTEM
@@ -230,7 +230,7 @@ nav_options.append("📈 Reports & Analytics Compliance Portfolio")
 app_panel = st.sidebar.radio("Select Operational Workspace Desk:", options=nav_options)
 
 # ==========================================
-# MODULE 1: CLIENT LIFE PORTAL
+# MODULE 1: SYNCRO SERVICE DESK PORTAL
 # ==========================================
 if app_panel == "👤 Syncro Service Desk Portal":
     main_workspace, ai_assistant_col = st.columns([3, 1])
@@ -283,7 +283,7 @@ if app_panel == "👤 Syncro Service Desk Portal":
             if st.button("🚀 Commit Adjustments to Centralized Syncro Ledger", use_container_width=True):
                 st.session_state.enrollment_funnel_db.at[idx, "helpdesk_status"] = stage_update
                 st.session_state.enrollment_funnel_db.at[idx, "automation_policy_group"] = camp_update
-                if append_note: st.session_state.enrollment_funnel_db.at[idx, "rmm_telemetry_logs"] = f"{p_row['rmm_telemetry_logs']} | CDO Edit: {append_note}"
+                if append_note: st.session_state.enrollment_funnel_db.at[idx, "rmm_telemetry_logs"] = f"{p_row['rmm_telemetry_logs']} | Update: {append_note}"
                 st.success("Syncro ticket fields updated successfully.")
                 st.rerun()
         else: st.warning("No incident telemetry matching current filter scope constraints.")
@@ -305,7 +305,7 @@ if app_panel == "👤 Syncro Service Desk Portal":
         st.button("📅 Dispatch On-Site Support Technician Event", use_container_width=True)
 
 # ==========================================
-# MODULE 2: TECH WORKLOAD CONSOLE
+# MODULE 2: MSP ENGINEERING WORKLOAD CONSOLE
 # ==========================================
 elif app_panel == "🏛️ MSP Engineering Workload Console":
     st.header("🏛️ MSP Engineering Roster: Performance & Capacity Analytics")
@@ -391,6 +391,7 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
     
     if "1. Compiles standard and ad hoc" in selected_key_tab:
         st.markdown("### 📊 Key 1: Standardized Scheduled vs. Ad Hoc Event Extractions Engine")
+        st.caption("🔗 *SyncroMSP Mapping Source:* Sourced directly from **Syncro -> Tickets -> Ticket Views -> Scheduled Reports** data matrices.")
         rep_type = st.radio("Select Guidelines Frequency Distribution Format:", ["Standard Recurring (Weekly Intake)", "Ad Hoc Live Extract"])
         if rep_type == "Standard Recurring (Weekly Intake)":
             st.info("📦 **Standard Guideline Run:** Extracting scheduled multi-tenant operational endpoint data logs, asset references, and SLA metrics.")
@@ -402,6 +403,7 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
 
     elif "2. Provides reports, analysis and data interpretation" in selected_key_tab:
         st.markdown("### 🏛️ Key 2: Corporate Tenant Technical Interpretation Summary Ledger")
+        st.caption("🔗 *SyncroMSP Mapping Source:* Sourced from **Syncro -> Admin -> Employees** metrics combined with **Syncro Ticket Timesheets** tracking.")
         c_act, c_graph = st.columns(2)
         with c_act:
             st.info("📊 **Assigned Service Hub Engineering Matrix**")
@@ -412,6 +414,7 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
 
     elif "3. Identifies areas of opportunity" in selected_key_tab:
         st.markdown("### 💡 Key 3: Enterprise Opportunity Discovery & Technical Strategic Analysis")
+        st.caption("🔗 *SyncroMSP Mapping Source:* Filtered using **Syncro -> Assets & RMM -> Policy Alerts** threshold trigger indices.")
         low_perf_leads = processed_funnel[processed_funnel["system_stability_index"] < 2.5] if len(processed_funnel) > 0 else pd.DataFrame()
         with st.container(border=True):
             st.markdown("🏆 **Executive Data Insights Memorandum — Bunch Consulting Corporate Board**")
@@ -424,6 +427,7 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
 
     elif "4. Provides productivity analysis reports" in selected_key_tab:
         st.markdown("### ⏳ Key 4: Helpdesk Optimization & Automation Script Efficiency Audit")
+        st.caption("🔗 *SyncroMSP Mapping Source:* Tracked inside **Syncro -> Scripts -> Script Run Logs** profiling performance yield variables.")
         if len(processed_funnel) > 0:
             prod_df = processed_funnel.groupby("automation_policy_group").agg(total_endpoints_managed=("ticket_id", "count"), remaining_open_alerts=("open_warning_flags", "sum"), mean_stability_rating=("system_stability_index", "mean")).reset_index()
             c_p1, c_p2 = st.columns(2)
@@ -434,6 +438,7 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
 
     elif "5. Develops and maintains reports to measure operational" in selected_key_tab:
         st.markdown("### ⚙️ Key 5: Helpdesk Channel Allocation & Ticket Ingestion Benchmarks")
+        st.caption("🔗 *SyncroMSP Mapping Source:* Sourced from **Syncro -> Tickets -> Inbound Email/Chat Integration** log registers.")
         if len(processed_funnel) > 0:
             util_df = processed_funnel.groupby("channel_preference").size().reset_index(name="active_allocated_leads")
             c_u1, c_u2 = st.columns(2)
@@ -444,6 +449,7 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
 
     elif "6. May be required to prepare ad hoc reports required of association" in selected_key_tab:
         st.markdown("### 🏛️ Key 6: Oversight External Regulatory Compliance Matrix Framework")
+        st.caption("🔗 *SyncroMSP Mapping Source:* Audited via **Syncro -> Documentation -> Compliance Assets** profile registers.")
         reg_target = st.selectbox("Select Active Regulatory Compliance Frame Profile Target:", ["SOC 2 Type II System Security Trust Audit", "HIPAA Health Telemetry Privacy Safe Guard Profile", "CMMC Cybersecurity Maturity Model Certification Mapping"])
         with st.container(border=True):
             st.markdown(f"📁 **Active Compliance Manifest Structure:** `{reg_target}`")
@@ -452,24 +458,27 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
 
     elif "7. Compiles recurring operational review that includes trend analysis" in selected_key_tab:
         st.markdown("### 📈 Key 7: Multi-Quarter Infrastructure System Performance Trend Review")
-        trend_df = st.session_state.coles_capacity_db.copy()
-        trend_df["retention_shortfall"] = trend_df["retention_goal_pct"] - trend_df["actual_retention_pct"]
+        st.caption("🔗 *SyncroMSP Mapping Source:* Sourced from **Syncro -> Reports -> Customer SLA Breach Gaps** longitudinal matrices.")
+        trend_df = st.session_state.bunch_capacity_db.copy()
+        trend_df["retention_shortfall"] = trend_df["target_sla_pct"] - trend_df["actual_sla_pct"]
         c_t1, c_t2 = st.columns([2, 3])
-        with c_t1: st.dataframe(trend_df[["infrastructure_node", "total_monitored_endpoints", "deployed_hardware_inventory"]], use_container_width=True, hide_index=True)
+        with c_t1: st.dataframe(trend_df[["infrastructure_node", "target_sla_pct", "actual_sla_pct", "retention_shortfall"]], use_container_width=True, hide_index=True)
         with c_t2:
             fig_trend = px.line(trend_df, x="infrastructure_node", y="retention_shortfall", title="Longitudinal Core SLA Performance Gaps Profile Trends", markers=True, color_discrete_sequence=["#FF5722"])
             st.plotly_chart(fig_trend, use_container_width=True)
 
     elif "8. May assists with departmental inventory" in selected_key_tab:
         st.markdown("### 🖥️ Key 8: Corporate Hardware Endpoint Asset Inventory Analysis")
+        st.caption("🔗 *SyncroMSP Mapping Source:* Extracted instantly using **Syncro -> Assets & RMM -> Asset Custom Fields & Inventory Tracking**.")
         c_i1, c_i2 = st.columns(2)
-        with c_i1: st.dataframe(st.session_state.coles_capacity_db[["infrastructure_node", "total_monitored_endpoints", "deployed_hardware_inventory"]], use_container_width=True, hide_index=True)
+        with c_i1: st.dataframe(st.session_state.bunch_capacity_db[["infrastructure_node", "total_monitored_endpoints", "deployed_hardware_inventory"]], use_container_width=True, hide_index=True)
         with c_i2:
-            fig_inv = px.bar(st.session_state.coles_capacity_db, x="infrastructure_node", y="deployed_hardware_inventory", title="Active Managed Infrastructure Gateways Deployed per Operational Area", color_discrete_sequence=["#4E5D6C"])
+            fig_inv = px.bar(st.session_state.bunch_capacity_db, x="infrastructure_node", y="deployed_hardware_inventory", title="Active Managed Infrastructure Gateways Deployed per Operational Area", color_discrete_sequence=["#4E5D6C"])
             st.plotly_chart(fig_inv, use_container_width=True)
 
     elif "9. May be required to prepare ad hoc reporting that assists with measuring department performance" in selected_key_tab:
         st.markdown("### 🎯 Key 9: Helpdesk Resolution Velocity & Effectiveness Matrix")
+        st.caption("🔗 *SyncroMSP Mapping Source:* Calculated dynamically via **Syncro -> Reports -> Resolution Time Statistics** dashboard modules.")
         if len(processed_funnel) > 0:
             res_counts = processed_funnel.groupby("helpdesk_status").size().reset_index(name="total_cases")
             c_pf1, f_pf2 = st.columns(2)
@@ -480,9 +489,9 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
 
     elif "10. Collaborate with a variety of stakeholders across campus" in selected_key_tab:
         st.markdown("### 🤝 Key 10: Central Enterprise Corporate Strategy Architecture Alignment Link")
+        st.caption("🔗 *SyncroMSP Mapping Source:* Integrated securely using **Syncro -> Admin -> App Center -> Syncro Webhooks / API Integration Keys** channels.")
         with st.container(border=True):
             st.markdown("### 🏛️ Corporate Information Architecture Data Strategy Integration Layer")
             st.write("🔗 **Enterprise Governance Protocol:** Bunch Consulting LLC Master Data Strategy Core Taxonomy Guidelines completely synced.")
             st.write("📡 **API Synchronization Endpoint Handshake:** `https://data-strategy.bunchllc.com/v1/sync` verified active.")
             st.success("🟢 **Alignment Architecture Confirmed:** SyncroMSP schema instances align perfectly with your centralized enterprise reporting taxonomy maps.")
-            
