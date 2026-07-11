@@ -1,4 +1,4 @@
-import streamlit st
+import streamlit as st
 import pandas as pd
 import plotly.express as px
 from datetime import date
@@ -182,8 +182,10 @@ if "coles_capacity_db" not in st.session_state:
         "deployed_hardware_inventory": [45, 120, 85, 30, 25, 110, 15, 60, 140, 130]
     })
 
+ksu_gold_palette = ["#FFC400", "#161B22", "#FFA000", "#FF8F00", "#4E5D6C", "#FF5722", "#00E676"]
+
 # ==========================================
-# SIDEBAR SELECTION SYSTEM (TOTALLY PURGED)
+# SIDEBAR SELECTION SYSTEM
 # ==========================================
 st.sidebar.title("🛡️ Bunch Control Console")
 st.sidebar.markdown("**Enterprise MSP Engine:** `Bunch Consulting LLC`")
@@ -281,7 +283,7 @@ if app_panel == "👤 Syncro Service Desk Portal":
             if st.button("🚀 Commit Adjustments to Centralized Syncro Ledger", use_container_width=True):
                 st.session_state.enrollment_funnel_db.at[idx, "helpdesk_status"] = stage_update
                 st.session_state.enrollment_funnel_db.at[idx, "automation_policy_group"] = camp_update
-                if append_note: st.session_state.enrollment_funnel_db.at[idx, "rmm_telemetry_logs"] = f"{p_row['rmm_telemetry_logs']} | Update: {append_note}"
+                if append_note: st.session_state.enrollment_funnel_db.at[idx, "rmm_telemetry_logs"] = f"{p_row['rmm_telemetry_logs']} | CDO Edit: {append_note}"
                 st.success("Syncro ticket fields updated successfully.")
                 st.rerun()
         else: st.warning("No incident telemetry matching current filter scope constraints.")
@@ -303,7 +305,7 @@ if app_panel == "👤 Syncro Service Desk Portal":
         st.button("📅 Dispatch On-Site Support Technician Event", use_container_width=True)
 
 # ==========================================
-# MODULE 2: TECH ROSTER MODULE
+# MODULE 2: TECH WORKLOAD CONSOLE
 # ==========================================
 elif app_panel == "🏛️ MSP Engineering Workload Console":
     st.header("🏛️ MSP Engineering Roster: Performance & Capacity Analytics")
@@ -341,7 +343,7 @@ elif app_panel == "🏛️ MSP Engineering Workload Console":
     else: st.warning("No engineering metrics log segments found matching current filters.")
 
 # ==========================================
-# MODULE 3: AUTOMATION MANAGER
+# MODULE 3: AUTOMATION SCRIPT MATRIX
 # ==========================================
 elif app_panel == "📢 Automation Action Script Matrix":
     st.header("📢 Syncro Automation Profile Task Group Dispatcher")
@@ -358,7 +360,7 @@ elif app_panel == "📢 Automation Action Script Matrix":
     st.plotly_chart(fig_funnel, use_container_width=True)
 
 # ==========================================
-# MODULE 4: 10 KEYS PERFORMANCE LEDGER
+# MODULE 4: COMPLIANCE PORTFOLIO
 # ==========================================
 elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
     st.header("📈 Enterprise Reports & Analytics Compliance Gateway")
@@ -453,7 +455,7 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
         trend_df = st.session_state.coles_capacity_db.copy()
         trend_df["retention_shortfall"] = trend_df["retention_goal_pct"] - trend_df["actual_retention_pct"]
         c_t1, c_t2 = st.columns([2, 3])
-        with c_t1: st.dataframe(trend_df[["infrastructure_node", "target_sla_pct", "actual_sla_pct", "retention_shortfall"]], use_container_width=True, hide_index=True)
+        with c_t1: st.dataframe(trend_df[["infrastructure_node", "total_monitored_endpoints", "deployed_hardware_inventory"]], use_container_width=True, hide_index=True)
         with c_t2:
             fig_trend = px.line(trend_df, x="infrastructure_node", y="retention_shortfall", title="Longitudinal Core SLA Performance Gaps Profile Trends", markers=True, color_discrete_sequence=["#FF5722"])
             st.plotly_chart(fig_trend, use_container_width=True)
@@ -483,3 +485,4 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
             st.write("🔗 **Enterprise Governance Protocol:** Bunch Consulting LLC Master Data Strategy Core Taxonomy Guidelines completely synced.")
             st.write("📡 **API Synchronization Endpoint Handshake:** `https://data-strategy.bunchllc.com/v1/sync` verified active.")
             st.success("🟢 **Alignment Architecture Confirmed:** SyncroMSP schema instances align perfectly with your centralized enterprise reporting taxonomy maps.")
+            
