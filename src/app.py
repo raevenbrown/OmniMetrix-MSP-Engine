@@ -181,7 +181,7 @@ if "bunch_capacity_db" not in st.session_state:
         "deployed_hardware_inventory": [45, 120, 85, 30, 25, 110, 15, 60, 140, 130]
     })
 
-# High contrast primary colors (No mud tones)
+# High contrast primary configuration color sequence map
 msp_color_palette = ["#FFC400", "#00E676", "#FF5722", "#00B0FF", "#AA00FF", "#FF3D00"]
 
 # ==========================================
@@ -305,7 +305,7 @@ if app_panel == "👤 Syncro Service Desk Portal":
         st.button("📅 Dispatch On-Site Support Technician Event", use_container_width=True)
 
 # ==========================================
-# MODULE 2: FIXED MSP ENGINEERING WORKLOAD CONSOLE
+# MODULE 2: MSP ENGINEERING WORKLOAD CONSOLE
 # ==========================================
 elif app_panel == "🏛️ MSP Engineering Workload Console":
     st.header("🏛️ MSP Engineering Roster: Performance & Capacity Analytics")
@@ -322,9 +322,9 @@ elif app_panel == "🏛️ MSP Engineering Workload Console":
             f_c1, f_c2, f_c3 = st.columns(3)
             with f_c1:
                 st.markdown(f"**🏢 Tech Escalation Assignment Tier:** `{f_row['escalation_tier_rank']}`")
-                st.markdown(f"**⚙️ Administrative Operational Status:** `{f_row['operational_status']}`")
+                st.markdown(f"**⚙         Administrative Operational Status:** `{f_row['operational_status']}`")
             with f_c2:
-                st.markdown(f"**⏳ Stated Years with Bunch Consulting:** `{f_row['years_with_bunch']} Years Longevity`")
+                st.markdown(f"**⏳ Stated Years with Bunch Consulting:** `{f_row['years_with_bunch']} Years`")
                 st.markdown(f"**📚 Live Syncro Active Monthly Ticket Volume:** `{f_row['assigned_monthly_tickets']} Tickets Assigned`")
             with f_c3:
                 st.markdown(f"**🔮 Workload Attrition Risk Flag Tier:** `{f_row['burnout_hazard_flag']}`")
@@ -335,7 +335,6 @@ elif app_panel == "🏛️ MSP Engineering Workload Console":
         st.write("---")
         f_g1, f_g2 = st.columns(2)
         with f_g1:
-            # FIXED: Corrected column map inputs inside the bar execution logic to remove the NameError crash loop
             fig_tenure = px.bar(processed_faculty, x="engineer_name", y="years_with_bunch", title="Staff Longevity Analysis (Years with Bunch Consulting LLC)", color="escalation_tier_rank", color_discrete_sequence=msp_color_palette)
             st.plotly_chart(fig_tenure, use_container_width=True)
         with f_g2:
@@ -344,7 +343,7 @@ elif app_panel == "🏛️ MSP Engineering Workload Console":
     else: st.warning("No engineering metrics log segments found matching current filters.")
 
 # ==========================================
-# MODULE 3: FIXED AUTOMATION SCRIPT MATRIX
+# MODULE 3: AUTOMATION SCRIPT MATRIX
 # ==========================================
 elif app_panel == "📢 Automation Action Script Matrix":
     st.header("📢 Syncro Automation Profile Task Group Dispatcher")
@@ -357,28 +356,27 @@ elif app_panel == "📢 Automation Action Script Matrix":
             st.success(f"RMM Script Engine Strategy task group '{c_name}' deployed successfully!")
 
     st.write("---")
-    # FIXED: Re-mapped chart metrics properties targeting helpdesk_status fields explicitly to eliminate deployment crashes
     fig_funnel = px.bar(processed_funnel, x="helpdesk_status", title="Continuous Progress Helpdesk Resolution Funnel Analytics Curve", color="helpdesk_status", color_discrete_sequence=msp_color_palette)
     st.plotly_chart(fig_funnel, use_container_width=True)
 
 # ==========================================
-# MODULE 4: LEDGER GATEWAY (KEYS 6, 8, 9, 10 STRIPPED OUT NATIVELY)
+# MODULE 4: COMPLIANCE PORTFOLIO (SEQUENTIAL KEYS 1-6)
 # ==========================================
 elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
     st.header("📈 Enterprise Reports & Analytics Compliance Gateway")
     st.markdown("##### *Mapping interactive query views to verify core analytical milestones against your technical infrastructure directives.*")
     st.write("---")
     
-    # Pruned rows down to exactly 6 enterprise metrics
+    # Pruned rows down sequentially from Key 1 to Key 6 without skipping numbers
     ledger_df = pd.DataFrame({
-        "Key ID": ["Key 1", "Key 2", "Key 3", "Key 4", "Key 5", "Key 7"],
+        "Key ID": ["Key 1", "Key 2", "Key 3", "Key 4", "Key 5", "Key 6"],
         "Job Description Requirement Statement": [
             "1. Compiles standard and ad hoc reports per established guidelines and frequency",
             "2. Provides reports, analysis and data interpretation for all assigned corporate accounts",
             "3. Identifies areas of opportunity and presents findings and recommendations to leadership and stakeholders",
             "4. Provides productivity analysis reports",
             "5. Develops and maintains reports to measure operational and/or utilization activity",
-            "7. Compiles recurring operational review that includes trend analysis"
+            "6. Compiles recurring operational review that includes trend analysis"
         ],
         "Dashboard Validation Status": ["🟢 Engine Integrated & Deployable"] * 6
     })
@@ -408,7 +406,7 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
             st.info("📊 **Assigned Service Hub Engineering Matrix**")
             st.dataframe(processed_faculty[["engineer_name", "escalation_tier_rank", "operational_status", "years_with_bunch"]], use_container_width=True, hide_index=True)
         with c_graph:
-            fig_key2 = px.bar(processed_faculty, x="engineer_name", y="assigned_monthly_tickets", title="Total Active Syncro Tickets Handled per Specialist", color_discrete_sequence=["#FFC400"])
+            fig_key2 = px.bar(processed_faculty, x="engineer_name", y="assigned_monthly_tickets", title="Total Active Syncro Tickets Handled per Specialist", color="escalation_tier_rank", color_discrete_sequence=msp_color_palette)
             st.plotly_chart(fig_key2, use_container_width=True)
 
     elif "3. Identifies areas of opportunity" in selected_key_tab:
@@ -432,11 +430,12 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
             c_p1, c_p2 = st.columns(2)
             with c_p1: st.dataframe(prod_df, use_container_width=True, hide_index=True)
             with c_p2:
-                fig_prod = px.bar(prod_df, x="automation_policy_group", y="total_endpoints_managed", title="Total Infrastructure Volume Processed per RMM Policy Group", color_discrete_sequence=["#161B22"])
+                # FIXED: Mapped explicit colors sequences directly into code layout execution array parameters
+                fig_prod = px.bar(prod_df, x="automation_policy_group", y="total_endpoints_managed", title="Total Infrastructure Volume Processed per RMM Policy Group", color="automation_policy_group", color_discrete_sequence=msp_color_palette)
                 st.plotly_chart(fig_prod, use_container_width=True)
 
     elif "5. Develops and maintains reports to measure operational" in selected_key_tab:
-        st.markdown("### ⚙️ Key 5: Helpdesk Channel Allocation & Ticket Ingestion Benchmarks")
+        st.markdown("### ⚙        Key 5: Helpdesk Channel Allocation & Ticket Ingestion Benchmarks")
         st.caption("🔗 *SyncroMSP Mapping Source:* Sourced from **Syncro -> Tickets -> Inbound Email/Chat Integration** log registers.")
         if len(processed_funnel) > 0:
             util_df = processed_funnel.groupby("channel_preference").size().reset_index(name="active_allocated_leads")
@@ -446,11 +445,9 @@ elif app_panel == "📈 Reports & Analytics Compliance Portfolio":
                 fig_util = px.pie(util_df, values="active_allocated_leads", names="channel_preference", title="Ingested Helpdesk Interaction Channel Utilization Share", color_discrete_sequence=msp_color_palette, hole=0.4)
                 st.plotly_chart(fig_util, use_container_width=True)
 
-    elif "7. Compiles recurring operational review that includes trend analysis" in selected_key_tab:
-        st.markdown("### 📈 Key 7: Multi-Quarter Infrastructure System Performance Trend Review")
+    elif "6. Compiles recurring operational review that includes trend analysis" in selected_key_tab:
+        st.markdown("### 📈 Key 6: Multi-Quarter Infrastructure System Performance Trend Review")
         st.caption("🔗 *SyncroMSP Mapping Source:* Sourced from **Syncro -> Reports -> Customer SLA Breach Gaps** longitudinal matrices.")
-        
-        # FIXED: Bound explicitly to bunch_capacity_db arrays using targeted columns to eliminate KeyErrors completely
         trend_df = st.session_state.bunch_capacity_db.copy()
         trend_df["retention_shortfall"] = trend_df["target_sla_pct"] - trend_df["actual_sla_pct"]
         c_t1, c_t2 = st.columns([2, 3])
